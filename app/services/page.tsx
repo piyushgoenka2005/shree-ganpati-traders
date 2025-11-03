@@ -1,10 +1,62 @@
+"use client"
+import { useEffect, useState } from "react"
 import Image from "next/image"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
-import { CheckCircle, ArrowRight, Clock, Shield, Palette } from 'lucide-react'
+import { CheckCircle, ArrowRight } from 'lucide-react'
 
 export default function ServicesPage() {
+  const [visibleSections, setVisibleSections] = useState<Set<string>>(new Set(['hero-section']))
+  
+  useEffect(() => {
+    // Trigger services section animation immediately on page load
+    const triggerServicesAnimation = setTimeout(() => {
+      setVisibleSections(prev => new Set(prev).add('services-section'))
+    }, 100)
+
+    // Check immediately if sections are visible on page load
+    const checkInitialVisibility = () => {
+      const sections = document.querySelectorAll('[data-animate-section]')
+      sections.forEach((section) => {
+        const rect = section.getBoundingClientRect()
+        const isVisible = rect.top < window.innerHeight && rect.bottom > 0
+        if (isVisible && section.id && section.id !== 'services-section') {
+          setVisibleSections(prev => new Set(prev).add(section.id))
+        }
+      })
+    }
+
+    // Check immediately
+    checkInitialVisibility()
+
+    // Set up Intersection Observer for scroll-triggered animations
+    const observerOptions = {
+      threshold: 0.1,
+      rootMargin: '0px 0px -50px 0px'
+    }
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting && entry.target.id) {
+          setVisibleSections(prev => new Set(prev).add(entry.target.id))
+        }
+      })
+    }, observerOptions)
+
+    // Wait a bit for DOM to be ready
+    const timer = setTimeout(() => {
+      const sections = document.querySelectorAll('[data-animate-section]')
+      sections.forEach(section => observer.observe(section))
+    }, 50)
+
+    return () => {
+      clearTimeout(triggerServicesAnimation)
+      clearTimeout(timer)
+      observer.disconnect()
+    }
+  }, [])
+
   const services = [
     {
       id: "letterhead",
@@ -229,32 +281,61 @@ export default function ServicesPage() {
   return (
     <div className="min-h-screen bg-background">  
       {/* Hero Section */}
-      <section className="py-16 bg-gradient-to-r from-blue-600 to-orange-600 text-white">
+      <section 
+        id="hero-section"
+        data-animate-section
+        className={`py-16 bg-gradient-to-r from-blue-600 to-orange-600 text-white transition-all duration-1000 ${
+          visibleSections.has('hero-section') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
+        }`}
+      >
         <div className="container mx-auto px-4 text-center">
-          <h1 className="text-4xl lg:text-5xl font-bold mb-4">
+          <h1 className={`text-4xl lg:text-5xl font-bold mb-4 transition-all duration-1000 ${
+            visibleSections.has('hero-section') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-5'
+          }`}
+          style={{ transitionDelay: '200ms' }}
+          >
             Our Printing Services
           </h1>
-          <p className="text-xl opacity-90 max-w-3xl mx-auto">
+          <p className={`text-xl opacity-90 max-w-3xl mx-auto transition-all duration-1000 ${
+            visibleSections.has('hero-section') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-5'
+          }`}
+          style={{ transitionDelay: '400ms' }}
+          >
             Comprehensive printing solutions tailored to meet your business and personal needs with exceptional quality and competitive pricing.
           </p>
         </div>
       </section>
 
       {/* Services Grid */}
-      <section className="py-20">
+      <section 
+        id="services-section"
+        data-animate-section
+        className={`py-20 transition-all duration-1000 ${
+          visibleSections.has('services-section') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
+        }`}
+        style={{ transitionDelay: '200ms' }}
+      >
         <div className="container mx-auto px-4">
           <div className="grid lg:grid-cols-3 gap-8 max-w-7xl mx-auto">
             {services.map((service, index) => (
-              <Card key={service.id} className="group overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-300 border border-border rounded-xl p-0 hover:scale-105 hover:-translate-y-2 cursor-pointer">
+              <Card 
+                key={service.id} 
+                className={`group hover:shadow-xl transition-all duration-300 border border-border shadow-lg hover:-translate-y-2 overflow-hidden p-0 ${
+                  visibleSections.has('services-section') 
+                    ? 'opacity-100 translate-y-0' 
+                    : 'opacity-0 translate-y-10'
+                }`}
+                style={{ transitionDelay: `${400 + index * 100}ms` }}
+              >
                 <div className="relative -m-px overflow-hidden">
                   <Image
                     src={service.image || "/placeholder.svg"}
                     alt={service.title}
                     width={400}
                     height={300}
-                    className="w-full h-64 object-cover rounded-t-xl group-hover:scale-110 transition-transform duration-500"
+                    className="w-full h-64 object-cover group-hover:scale-110 transition-transform duration-300"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-t-xl" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                   
                   {/* Price Badge - Bottom Left */}
                   {service.price && (
@@ -277,8 +358,8 @@ export default function ServicesPage() {
                 
                 <CardContent className="p-6">
                   <div className="mb-6">
-                    <h3 className="text-xl font-bold text-foreground mb-3 group-hover:text-blue-600 transition-colors duration-300">{service.title}</h3>
-                    <p className="text-foreground/80 leading-relaxed text-sm group-hover:text-foreground/90 transition-colors duration-300">{service.description}</p>
+                    <h3 className="text-xl font-bold text-foreground mb-3 group-hover:text-blue-600 transition-colors duration-150">{service.title}</h3>
+                    <p className="text-foreground/80 leading-relaxed text-sm group-hover:text-foreground/90 transition-colors duration-150">{service.description}</p>
                   </div>
 
                   <div className="mb-6">
@@ -301,9 +382,9 @@ export default function ServicesPage() {
                     </div>
                   </div>
 
-                  <Button className="w-full bg-blue-600 hover:bg-blue-700 text-white group-hover:shadow-lg transition-all duration-300">
+                  <Button className="w-full bg-blue-600 hover:bg-blue-700 text-white group-hover:shadow-lg transition-all duration-150">
                     <Link href="/contact" className="flex items-center justify-center gap-2 w-full">
-                      Get Quote <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-300" />
+                      Get Quote <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-150" />
                     </Link>
                   </Button>
                 </CardContent>
@@ -314,9 +395,20 @@ export default function ServicesPage() {
       </section>
 
       {/* Process Section */}
-      <section className="py-20 bg-card">
+      <section 
+        id="process-section"
+        data-animate-section
+        className={`py-20 bg-card transition-all duration-1000 ${
+          visibleSections.has('process-section') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
+        }`}
+        style={{ transitionDelay: '200ms' }}
+      >
         <div className="container mx-auto px-4">
-          <div className="text-center mb-16">
+          <div className={`text-center mb-16 transition-all duration-1000 ${
+            visibleSections.has('process-section') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-5'
+          }`}
+          style={{ transitionDelay: '300ms' }}
+          >
             <h2 className="text-3xl lg:text-4xl font-bold text-foreground mb-4">
               Our Simple <span className="text-blue-600">Process</span>
             </h2>
@@ -326,34 +418,26 @@ export default function ServicesPage() {
           </div>
           
           <div className="grid md:grid-cols-4 gap-8">
-            <div className="text-center">
-              <div className="w-16 h-16 bg-gradient-to-r from-blue-500 to-blue-600 rounded-full flex items-center justify-center mx-auto mb-4">
-                <span className="text-white font-bold text-xl">1</span>
+            {[
+              { num: "1", title: "Consultation", desc: "Discuss your requirements and get expert advice on materials and design.", color: "from-blue-500 to-blue-600" },
+              { num: "2", title: "Design & Proof", desc: "Create or refine your design and receive a digital proof for approval.", color: "from-orange-500 to-orange-600" },
+              { num: "3", title: "Production", desc: "High-quality printing using state-of-the-art equipment and premium materials.", color: "from-green-500 to-green-600" },
+              { num: "4", title: "Delivery", desc: "Fast and secure delivery to your doorstep or pickup from our facility.", color: "from-purple-500 to-purple-600" }
+            ].map((step, index) => (
+              <div 
+                key={index}
+                className={`text-center transition-all duration-1000 ${
+                  visibleSections.has('process-section') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
+                }`}
+                style={{ transitionDelay: `${400 + index * 100}ms` }}
+              >
+                <div className={`w-16 h-16 bg-gradient-to-r ${step.color} rounded-full flex items-center justify-center mx-auto mb-4`}>
+                  <span className="text-white font-bold text-xl">{step.num}</span>
+                </div>
+                <h3 className="text-xl font-semibold text-foreground mb-2">{step.title}</h3>
+                <p className="text-foreground/80">{step.desc}</p>
               </div>
-              <h3 className="text-xl font-semibold text-foreground mb-2">Consultation</h3>
-              <p className="text-foreground/80">Discuss your requirements and get expert advice on materials and design.</p>
-            </div>
-            <div className="text-center">
-              <div className="w-16 h-16 bg-gradient-to-r from-orange-500 to-orange-600 rounded-full flex items-center justify-center mx-auto mb-4">
-                <span className="text-white font-bold text-xl">2</span>
-              </div>
-              <h3 className="text-xl font-semibold text-foreground mb-2">Design & Proof</h3>
-              <p className="text-foreground/80">Create or refine your design and receive a digital proof for approval.</p>
-            </div>
-            <div className="text-center">
-              <div className="w-16 h-16 bg-gradient-to-r from-green-500 to-green-600 rounded-full flex items-center justify-center mx-auto mb-4">
-                <span className="text-white font-bold text-xl">3</span>
-              </div>
-              <h3 className="text-xl font-semibold text-foreground mb-2">Production</h3>
-              <p className="text-foreground/80">High-quality printing using state-of-the-art equipment and premium materials.</p>
-            </div>
-            <div className="text-center">
-              <div className="w-16 h-16 bg-gradient-to-r from-purple-500 to-purple-600 rounded-full flex items-center justify-center mx-auto mb-4">
-                <span className="text-white font-bold text-xl">4</span>
-              </div>
-              <h3 className="text-xl font-semibold text-foreground mb-2">Delivery</h3>
-              <p className="text-foreground/80">Fast and secure delivery to your doorstep or pickup from our facility.</p>
-            </div>
+            ))}
           </div>
         </div>
       </section>
@@ -373,7 +457,7 @@ export default function ServicesPage() {
                 Get Free Quote <ArrowRight className="w-4 h-4" />
               </Link>
             </Button>
-            <Button size="lg" variant="outline" className="border-white text-white hover:bg-white/10 px-8 py-3">
+            <Button size="lg" variant="outline" className="border-2 border-white text-white bg-white/10 hover:bg-white/20 backdrop-blur-sm px-8 py-3">
               <Link href="/portfolio">View Our Work</Link>
             </Button>
           </div>

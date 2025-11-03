@@ -1,5 +1,5 @@
 "use client"
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import Image from "next/image"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
@@ -122,49 +122,106 @@ export default function PortfolioPage() {
 
   const categories = ["All", "Visiting Cards", "Custom Bags", "ID Cards", "Brochures", "Banners", "Stickers"]
 
+  const [visibleSections, setVisibleSections] = useState<Set<string>>(new Set(['hero-section']))
+  
+  useEffect(() => {
+    const observerOptions = {
+      threshold: 0.1,
+      rootMargin: '0px 0px -50px 0px'
+    }
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          setVisibleSections(prev => new Set(prev).add(entry.target.id))
+        }
+      })
+    }, observerOptions)
+
+    const sections = document.querySelectorAll('[data-animate-section]')
+    sections.forEach(section => observer.observe(section))
+
+    return () => {
+      sections.forEach(section => observer.unobserve(section))
+    }
+  }, [])
+
   return (
     <div className="min-h-screen bg-background">  
       {/* Hero Section */}
-      <section className="py-16 bg-gradient-to-r from-blue-600 to-orange-600 text-white">
+      <section 
+        id="hero-section"
+        data-animate-section
+        className={`py-16 bg-gradient-to-r from-blue-600 to-orange-600 text-white transition-all duration-1000 ${
+          visibleSections.has('hero-section') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
+        }`}
+      >
         <div className="container mx-auto px-4 text-center">
-          <h1 className="text-4xl lg:text-5xl font-bold mb-4">
+          <h1 className={`text-4xl lg:text-5xl font-bold mb-4 transition-all duration-1000 ${
+            visibleSections.has('hero-section') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-5'
+          }`}
+          style={{ transitionDelay: '200ms' }}
+          >
             Our Portfolio
           </h1>
-          <p className="text-xl opacity-90 max-w-3xl mx-auto">
+          <p className={`text-xl opacity-90 max-w-3xl mx-auto transition-all duration-1000 ${
+            visibleSections.has('hero-section') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-5'
+          }`}
+          style={{ transitionDelay: '400ms' }}
+          >
             Explore our collection of successful printing projects and see how we've helped businesses and individuals achieve their goals.
           </p>
         </div>
       </section>
 
       {/* Stats Section */}
-      <section className="py-12 bg-card">
+      <section 
+        id="stats-section"
+        data-animate-section
+        className={`py-12 bg-card transition-all duration-1000 ${
+          visibleSections.has('stats-section') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
+        }`}
+        style={{ transitionDelay: '200ms' }}
+      >
         <div className="container mx-auto px-4">
           <div className="grid md:grid-cols-4 gap-8 text-center">
-            <div>
-              <div className="text-3xl font-bold text-blue-600 mb-2">500+</div>
-              <div className="text-foreground/70">Projects Completed</div>
-            </div>
-            <div>
-              <div className="text-3xl font-bold text-orange-600 mb-2">200+</div>
-              <div className="text-foreground/70">Happy Clients</div>
-            </div>
-            <div>
-              <div className="text-3xl font-bold text-green-600 mb-2">10+</div>
-              <div className="text-foreground/70">Years Experience</div>
-            </div>
-            <div>
-              <div className="text-3xl font-bold text-purple-600 mb-2">99%</div>
-              <div className="text-foreground/70">Client Satisfaction</div>
-            </div>
+            {[
+              { value: "500+", label: "Projects Completed", color: "text-blue-600" },
+              { value: "200+", label: "Happy Clients", color: "text-orange-600" },
+              { value: "10+", label: "Years Experience", color: "text-green-600" },
+              { value: "99%", label: "Client Satisfaction", color: "text-purple-600" }
+            ].map((stat, index) => (
+              <div 
+                key={index}
+                className={`transition-all duration-1000 ${
+                  visibleSections.has('stats-section') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
+                }`}
+                style={{ transitionDelay: `${300 + index * 100}ms` }}
+              >
+                <div className={`text-3xl font-bold ${stat.color} mb-2`}>{stat.value}</div>
+                <div className="text-foreground/70">{stat.label}</div>
+              </div>
+            ))}
           </div>
         </div>
       </section>
 
       {/* Portfolio Grid */}
-      <section className="py-20">
+      <section 
+        id="portfolio-section"
+        data-animate-section
+        className={`py-20 transition-all duration-1000 ${
+          visibleSections.has('portfolio-section') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
+        }`}
+        style={{ transitionDelay: '200ms' }}
+      >
         <div className="container mx-auto px-4">
           {/* Category Filter */}
-          <div className="flex flex-wrap justify-center gap-4 mb-12">
+          <div className={`flex flex-wrap justify-center gap-4 mb-12 transition-all duration-1000 ${
+            visibleSections.has('portfolio-section') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-5'
+          }`}
+          style={{ transitionDelay: '300ms' }}
+          >
             {categories.map((category) => (
               <Button
                 key={category}
@@ -181,8 +238,14 @@ export default function PortfolioPage() {
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mx-auto max-w-7xl">
             {portfolioItems
               .filter(item => selectedCategory === "All" || item.category === selectedCategory)
-              .map((item) => (
-              <Card key={item.id} className="group overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 border border-border rounded-xl p-0">
+              .map((item, index) => (
+              <Card 
+                key={item.id} 
+                className={`group overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 border border-border rounded-xl p-0 ${
+                  visibleSections.has('portfolio-section') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
+                }`}
+                style={{ transitionDelay: `${400 + index * 100}ms` }}
+              >
                 <div className="relative overflow-hidden rounded-t-xl">
                   <Image
                     src={item.image || "/placeholder.svg"}
@@ -244,9 +307,20 @@ export default function PortfolioPage() {
       </section>
 
       {/* Client Testimonials */}
-      <section className="py-20 bg-card">
+      <section 
+        id="testimonials-section"
+        data-animate-section
+        className={`py-20 bg-card transition-all duration-1000 ${
+          visibleSections.has('testimonials-section') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
+        }`}
+        style={{ transitionDelay: '200ms' }}
+      >
         <div className="container mx-auto px-4">
-          <div className="text-center mb-16">
+          <div className={`text-center mb-16 transition-all duration-1000 ${
+            visibleSections.has('testimonials-section') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-5'
+          }`}
+          style={{ transitionDelay: '300ms' }}
+          >
             <h2 className="text-3xl lg:text-4xl font-bold text-foreground mb-4">
               What Our <span className="text-blue-600">Clients</span> Say
             </h2>
@@ -257,7 +331,13 @@ export default function PortfolioPage() {
           
           <div className="grid md:grid-cols-3 gap-8 max-w-7xl mx-auto">
             {testimonials.map((testimonial, index) => (
-              <Card key={index} className="group border border-border rounded-xl shadow-lg hover:shadow-2xl hover:scale-105 hover:-translate-y-2 transition-all duration-300 cursor-pointer">
+              <Card 
+                key={index} 
+                className={`group border border-border rounded-xl shadow-lg hover:shadow-2xl hover:scale-105 hover:-translate-y-2 transition-all duration-300 cursor-pointer ${
+                  visibleSections.has('testimonials-section') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
+                }`}
+                style={{ transitionDelay: `${400 + index * 100}ms` }}
+              >
                 <CardContent className="p-6">
                   <div className="flex items-center gap-1 mb-4">
                     {[...Array(testimonial.rating)].map((_, i) => (

@@ -1,3 +1,5 @@
+"use client"
+import { useEffect, useState } from "react"
 import Image from "next/image"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
@@ -6,6 +8,29 @@ import { Badge } from "@/components/ui/badge"
 import { ArrowRight, Award, Users, Clock, Target, Heart, Lightbulb } from 'lucide-react'
 
 export default function AboutPage() {
+  const [visibleSections, setVisibleSections] = useState<Set<string>>(new Set(['hero-section']))
+  
+  useEffect(() => {
+    const observerOptions = {
+      threshold: 0.1,
+      rootMargin: '0px 0px -50px 0px'
+    }
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          setVisibleSections(prev => new Set(prev).add(entry.target.id))
+        }
+      })
+    }, observerOptions)
+
+    const sections = document.querySelectorAll('[data-animate-section]')
+    sections.forEach(section => observer.observe(section))
+
+    return () => {
+      sections.forEach(section => observer.unobserve(section))
+    }
+  }, [])
   const teamMembers = [
     {
       name: "Pankaj Goenka",
@@ -92,19 +117,40 @@ export default function AboutPage() {
   return (
     <div className="min-h-screen bg-background"> 
       {/* Hero Section */}
-      <section className="py-16 bg-gradient-to-r from-blue-600 to-orange-600 text-white">
+      <section 
+        id="hero-section"
+        data-animate-section
+        className={`py-16 bg-gradient-to-r from-blue-600 to-orange-600 text-white transition-all duration-1000 ${
+          visibleSections.has('hero-section') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
+        }`}
+      >
         <div className="container mx-auto px-4 text-center">
-          <h1 className="text-4xl lg:text-5xl font-bold mb-4">
+          <h1 className={`text-4xl lg:text-5xl font-bold mb-4 transition-all duration-1000 ${
+            visibleSections.has('hero-section') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-5'
+          }`}
+          style={{ transitionDelay: '200ms' }}
+          >
             About Ganpati Traders
           </h1>
-          <p className="text-xl opacity-90 max-w-3xl mx-auto">
+          <p className={`text-xl opacity-90 max-w-3xl mx-auto transition-all duration-1000 ${
+            visibleSections.has('hero-section') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-5'
+          }`}
+          style={{ transitionDelay: '400ms' }}
+          >
             Your trusted partner in premium printing solutions since 2014. We combine traditional craftsmanship with modern technology to deliver exceptional results.
           </p>
         </div>
       </section>
 
       {/* Company Story */}
-      <section className="py-20 bg-card">
+      <section 
+        id="story-section"
+        data-animate-section
+        className={`py-20 bg-card transition-all duration-1000 ${
+          visibleSections.has('story-section') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
+        }`}
+        style={{ transitionDelay: '200ms' }}
+      >
         <div className="container mx-auto px-4 max-w-7xl">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <div>
@@ -145,10 +191,21 @@ export default function AboutPage() {
       </section>
 
       {/* Mission, Vision, Values */}
-      <section className="py-20 bg-muted/30">
+      <section 
+        id="mission-section"
+        data-animate-section
+        className={`py-20 bg-muted/30 transition-all duration-1000 ${
+          visibleSections.has('mission-section') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
+        }`}
+        style={{ transitionDelay: '200ms' }}
+      >
         <div className="container mx-auto px-4">
           <div className="grid md:grid-cols-3 gap-8 mb-16">
-            <Card className="text-center border-0 shadow-lg">
+            <Card className={`text-center border-0 shadow-lg transition-all duration-1000 ${
+              visibleSections.has('mission-section') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
+            }`}
+            style={{ transitionDelay: '300ms' }}
+            >
               <CardContent className="p-8">
                 <div className="w-16 h-16 bg-blue-100 dark:bg-blue-900/30 rounded-full flex items-center justify-center mx-auto mb-4">
                   <Target className="w-8 h-8 text-blue-600" />
@@ -160,7 +217,11 @@ export default function AboutPage() {
               </CardContent>
             </Card>
             
-            <Card className="text-center border-0 shadow-lg">
+            <Card className={`text-center border-0 shadow-lg transition-all duration-1000 ${
+              visibleSections.has('mission-section') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
+            }`}
+            style={{ transitionDelay: '400ms' }}
+            >
               <CardContent className="p-8">
                 <div className="w-16 h-16 bg-orange-100 dark:bg-orange-900/30 rounded-full flex items-center justify-center mx-auto mb-4">
                   <Lightbulb className="w-8 h-8 text-orange-600" />
@@ -172,7 +233,11 @@ export default function AboutPage() {
               </CardContent>
             </Card>
             
-            <Card className="text-center border-0 shadow-lg">
+            <Card className={`text-center border-0 shadow-lg transition-all duration-1000 ${
+              visibleSections.has('mission-section') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
+            }`}
+            style={{ transitionDelay: '500ms' }}
+            >
               <CardContent className="p-8">
                 <div className="w-16 h-16 bg-green-100 dark:bg-green-900/30 rounded-full flex items-center justify-center mx-auto mb-4">
                   <Heart className="w-8 h-8 text-green-600" />
@@ -186,7 +251,11 @@ export default function AboutPage() {
           </div>
 
           {/* Core Values */}
-          <div className="text-center mb-12">
+          <div className={`text-center mb-12 transition-all duration-1000 ${
+            visibleSections.has('mission-section') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-5'
+          }`}
+          style={{ transitionDelay: '600ms' }}
+          >
             <h2 className="text-3xl lg:text-4xl font-bold text-foreground mb-4">
               Our <span className="text-blue-600">Core Values</span>
             </h2>
@@ -197,7 +266,13 @@ export default function AboutPage() {
 
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl mx-auto">
             {values.map((value, index) => (
-              <div key={index} className="flex items-start gap-4">
+              <div 
+                key={index} 
+                className={`flex items-start gap-4 transition-all duration-1000 ${
+                  visibleSections.has('mission-section') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
+                }`}
+                style={{ transitionDelay: `${700 + index * 100}ms` }}
+              >
                 <div className="w-12 h-12 bg-gradient-to-r from-blue-500 to-orange-500 rounded-lg flex items-center justify-center text-white flex-shrink-0">
                   {value.icon}
                 </div>
@@ -254,9 +329,20 @@ export default function AboutPage() {
       </section> */}
 
       {/* Team Section */}
-      <section className="py-20 bg-muted/30">
+      <section 
+        id="team-section"
+        data-animate-section
+        className={`py-20 bg-muted/30 transition-all duration-1000 ${
+          visibleSections.has('team-section') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
+        }`}
+        style={{ transitionDelay: '200ms' }}
+      >
         <div className="container mx-auto px-4">
-          <div className="text-center mb-16">
+          <div className={`text-center mb-16 transition-all duration-1000 ${
+            visibleSections.has('team-section') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-5'
+          }`}
+          style={{ transitionDelay: '300ms' }}
+          >
             <h2 className="text-3xl lg:text-4xl font-bold text-foreground mb-4">
               Meet Our <span className="text-blue-600">Team</span>
             </h2>
@@ -268,7 +354,13 @@ export default function AboutPage() {
           <div className="flex justify-center">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl">
               {teamMembers.map((member, index) => (
-                <Card key={index} className="text-center border-0 shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-2">
+                <Card 
+                  key={index} 
+                  className={`text-center border-0 shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-2 ${
+                    visibleSections.has('team-section') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
+                  }`}
+                  style={{ transitionDelay: `${400 + index * 100}ms` }}
+                >
                 <CardContent className="p-6">
                   <div className="relative mb-4">
                     <Image

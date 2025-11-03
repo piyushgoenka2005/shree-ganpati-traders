@@ -6,7 +6,6 @@ import SplashCursor from '@/components/SplashCursor';
 import { ThemeProvider } from '@/components/theme-provider';
 import Header from '@/components/header';
 import Footer from '@/components/footer';
-import DotGridBackground from '@/components/DotGridBackground';
 const _geist = Geist({ subsets: ["latin"] });
 const _geistMono = Geist_Mono({ subsets: ["latin"] });
 
@@ -25,7 +24,6 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <body className={`font-sans antialiased relative`}>
         <ThemeProvider attribute="class" defaultTheme="light" enableSystem>
-          <DotGridBackground />
           <Header />
           {children}
           <Footer />
