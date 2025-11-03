@@ -1,5 +1,6 @@
 import Link from "next/link"
 import { Phone, Mail, MapPin, Facebook, Twitter, Instagram, Linkedin } from 'lucide-react'
+import Image from "next/image"
 
 export default function Footer() {
   return (
@@ -7,11 +8,9 @@ export default function Footer() {
       <div className="container mx-auto px-4 py-12">
         <div className="grid md:grid-cols-4 gap-8">
           {/* Company Info */}
-          <div className="space-y-4">
+          <div className="space-y-4 md:col-span-1">
             <div className="flex items-center space-x-2">
-              <div className="w-10 h-10 bg-gradient-to-r from-blue-600 to-orange-600 rounded-lg flex items-center justify-center">
-                <span className="text-white font-bold text-xl">G</span>
-              </div>
+              <Image className="rounded-lg" src="/logo.png" alt="Ganpati Traders" width={40} height={40} />
               <div>
                 <div className="text-xl font-bold text-foreground">Ganpati Traders</div>
                 <div className="text-xs text-muted-foreground">Premium Printing Solutions</div>
@@ -28,32 +27,35 @@ export default function Footer() {
             </div>
           </div>
 
-          {/* Quick Links */}
-          <div>
-            <h3 className="text-lg font-semibold mb-4">Quick Links</h3>
-            <ul className="space-y-2">
-              <li><Link href="/" className="text-muted-foreground hover:text-foreground transition-colors">Home</Link></li>
-              <li><Link href="/services" className="text-muted-foreground hover:text-foreground transition-colors">Services</Link></li>
-              <li><Link href="/portfolio" className="text-muted-foreground hover:text-foreground transition-colors">Portfolio</Link></li>
-              <li><Link href="/about" className="text-muted-foreground hover:text-foreground transition-colors">About Us</Link></li>
-              <li><Link href="/contact" className="text-muted-foreground hover:text-foreground transition-colors">Contact</Link></li>
-            </ul>
-          </div>
+          {/* Quick Links and Services - Side by side on mobile */}
+          <div className="grid grid-cols-2 gap-6 md:col-span-2 md:grid-cols-2">
+            {/* Quick Links */}
+            <div>
+              <h3 className="text-lg font-semibold mb-4">Quick Links</h3>
+              <ul className="space-y-2">
+                <li><Link href="/" className="text-muted-foreground hover:text-foreground transition-colors">Home</Link></li>
+                <li><Link href="/services" className="text-muted-foreground hover:text-foreground transition-colors">Services</Link></li>
+                <li><Link href="/portfolio" className="text-muted-foreground hover:text-foreground transition-colors">Portfolio</Link></li>
+                <li><Link href="/about" className="text-muted-foreground hover:text-foreground transition-colors">About Us</Link></li>
+                <li><Link href="/contact" className="text-muted-foreground hover:text-foreground transition-colors">Contact</Link></li>
+              </ul>
+            </div>
 
-          {/* Services */}
-          <div>
-            <h3 className="text-lg font-semibold mb-4">Our Services</h3>
-            <ul className="space-y-2">
-              <li><Link href="/services" className="text-muted-foreground hover:text-foreground transition-colors">Visiting Cards</Link></li>
-              <li><Link href="/services" className="text-muted-foreground hover:text-foreground transition-colors">Custom Bags</Link></li>
-              <li><Link href="/services" className="text-muted-foreground hover:text-foreground transition-colors">ID Cards</Link></li>
-              <li><Link href="/services" className="text-muted-foreground hover:text-foreground transition-colors">Custom Printing</Link></li>
-              <li><Link href="/services" className="text-muted-foreground hover:text-foreground transition-colors">Bulk Orders</Link></li>
-            </ul>
+            {/* Services */}
+            <div>
+              <h3 className="text-lg font-semibold mb-4">Our Services</h3>
+              <ul className="space-y-2">
+                <li><Link href="/services" className="text-muted-foreground hover:text-foreground transition-colors">Visiting Cards</Link></li>
+                <li><Link href="/services" className="text-muted-foreground hover:text-foreground transition-colors">Custom Bags</Link></li>
+                <li><Link href="/services" className="text-muted-foreground hover:text-foreground transition-colors">ID Cards</Link></li>
+                <li><Link href="/services" className="text-muted-foreground hover:text-foreground transition-colors">Custom Printing</Link></li>
+                <li><Link href="/services" className="text-muted-foreground hover:text-foreground transition-colors">Bulk Orders</Link></li>
+              </ul>
+            </div>
           </div>
 
           {/* Contact Info */}
-          <div>
+          <div className="md:col-span-1">
             <h3 className="text-lg font-semibold mb-4">Contact Info</h3>
             <div className="space-y-3">
               <div className="flex items-center gap-3">

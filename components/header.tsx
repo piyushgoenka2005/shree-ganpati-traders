@@ -5,6 +5,7 @@ import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { Menu, X, Phone, Mail } from 'lucide-react'
 import { ThemeToggle } from "@/components/theme-toggle"
+import Image from "next/image"
 
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
@@ -44,9 +45,7 @@ export default function Header() {
       <div className="container mx-auto px-4">
         <div className="flex justify-between items-center py-4">
           <Link href="/" className="flex items-center space-x-2">
-            <div className="w-10 h-10 bg-gradient-to-r from-blue-600 to-orange-600 rounded-lg flex items-center justify-center">
-              <span className="text-white font-bold text-xl">G</span>
-            </div>
+              <Image className="rounded-lg" src="/logo.png" alt="Ganpati Traders" width={40} height={40} />
             <div>
               <div className="text-xl font-bold text-foreground">Ganpati Traders</div>
               <div className="text-xs text-muted-foreground">Premium Printing Solutions</div>

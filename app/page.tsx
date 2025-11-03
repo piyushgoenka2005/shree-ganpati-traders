@@ -85,19 +85,49 @@ export default function HomePage() {
   }, [])
 
   useEffect(() => {
+    // Check initial visibility of sections on page load
+    const checkInitialVisibility = () => {
+      const sections = document.querySelectorAll('[data-animate-section]')
+      const viewportHeight = window.innerHeight
+      
+      sections.forEach((section) => {
+        if (!section.id) return
+        
+        const rect = section.getBoundingClientRect()
+        
+        // Check if section is anywhere in the viewport (more lenient check)
+        // If any part of the section is visible, show it immediately
+        const isInViewport = (
+          rect.top < viewportHeight * 1.5 && // Section top is within 1.5x viewport height
+          rect.bottom > -viewportHeight * 0.5 && // Section bottom is above -0.5x viewport
+          rect.top < viewportHeight + 200 // Section starts within viewport + 200px buffer
+        )
+        
+        // For initial load, be very lenient - if section is near or in viewport, show it
+        if (isInViewport) {
+          setVisibleSections(prev => new Set(prev).add(section.id))
+        }
+      })
+    }
+
+    // Check immediately and multiple times to ensure DOM is ready (especially on mobile)
+    checkInitialVisibility()
+    const initialCheckTimer = setTimeout(checkInitialVisibility, 50)
+    const secondCheckTimer = setTimeout(checkInitialVisibility, 200)
+    const thirdCheckTimer = setTimeout(checkInitialVisibility, 500)
+
     // Set up Intersection Observer for scroll-triggered animations
     const observerOptions = {
-      threshold: 0.15, // Trigger when 15% of section is visible
-      rootMargin: '0px 0px -100px 0px' // Trigger slightly before section enters viewport
+      threshold: [0.05, 0.1, 0.2, 0.3], // Multiple thresholds for better detection
+      rootMargin: '50px 0px 50px 0px' // Larger margin to trigger earlier on mobile
     }
 
     const observer = new IntersectionObserver((entries) => {
       entries.forEach((entry) => {
         if (entry.isIntersecting && entry.target.id) {
-          // Only add section when it's scrolled into view
+          // Add section when it's scrolled into view
           setVisibleSections(prev => new Set(prev).add(entry.target.id))
-          // Once visible, we can optionally stop observing it
-          observer.unobserve(entry.target)
+          // Keep observing to handle scroll up/down
         }
       })
     }, observerOptions)
@@ -106,14 +136,17 @@ export default function HomePage() {
     const timer = setTimeout(() => {
       const sections = document.querySelectorAll('[data-animate-section]')
       sections.forEach(section => {
-        // Skip hero section as it's already visible
-        if (section.id !== 'hero-section') {
+        // Observe all sections, including hero (in case of scroll up)
+        if (section.id) {
           observer.observe(section)
         }
       })
-    }, 50)
+    }, 150)
 
     return () => {
+      clearTimeout(initialCheckTimer)
+      clearTimeout(secondCheckTimer)
+      clearTimeout(thirdCheckTimer)
       clearTimeout(timer)
       observer.disconnect()
     }
@@ -125,17 +158,13 @@ export default function HomePage() {
       <section 
         id="hero-section"
         data-animate-section
-        className={`relative pt-20 pb-12 sm:pt-16 sm:pb-10 lg:pt-24 lg:pb-20 overflow-hidden transition-all duration-1000 ${
-          visibleSections.has('hero-section') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
-        }`}
+        className="relative pt-20 pb-12 sm:pt-16 sm:pb-10 lg:pt-24 lg:pb-20 overflow-hidden transition-all duration-1000 opacity-100 translate-y-0"
       >
         <div className="absolute inset-0 bg-gradient-to-r from-blue-600/10 to-orange-600/10" />
         <div className="container mx-auto px-4 sm:px-6 relative z-10">
           <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center max-w-7xl mx-auto">
             <div className="space-y-6 sm:space-y-8 order-1 lg:order-2">
-              <div className={`space-y-3 sm:space-y-4 transition-all duration-1000 ${
-                visibleSections.has('hero-section') ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-10'
-              }`}
+              <div className="space-y-3 sm:space-y-4 transition-all duration-1000 opacity-100 translate-x-0"
               style={{ transitionDelay: '200ms' }}
               >
                 <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-foreground leading-tight sm:leading-tight">
@@ -145,9 +174,7 @@ export default function HomePage() {
                   From visiting cards to custom bags, we deliver exceptional printing services that elevate your brand and make lasting impressions.
                 </p>
               </div>
-              <div className={`flex flex-col sm:flex-row gap-3 sm:gap-4 transition-all duration-1000 ${
-                visibleSections.has('hero-section') ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-10'
-              }`}
+              <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 transition-all duration-1000 opacity-100 translate-x-0"
               style={{ transitionDelay: '400ms' }}
               >
                 <Button size="lg" className="bg-blue-600 hover:bg-blue-700 text-white px-6 sm:px-8 py-3 w-full sm:w-auto text-sm sm:text-base">
@@ -159,9 +186,7 @@ export default function HomePage() {
                   <Link href="/contact" className="flex items-center justify-center w-full sm:w-auto">Get Quote</Link>
                 </Button>
               </div>
-              <div className={`flex items-center justify-between sm:justify-start gap-4 sm:gap-6 lg:gap-8 pt-2 sm:pt-4 transition-all duration-1000 ${
-                visibleSections.has('hero-section') ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-10'
-              }`}
+              <div className="flex items-center justify-between sm:justify-start gap-4 sm:gap-6 lg:gap-8 pt-2 sm:pt-4 transition-all duration-1000 opacity-100 translate-x-0"
               style={{ transitionDelay: '600ms' }}
               >
                 <div className="text-center flex-1 sm:flex-none">
@@ -178,9 +203,7 @@ export default function HomePage() {
                 </div>
               </div>
             </div>
-            <div className={`relative flex items-center justify-center min-h-[300px] sm:min-h-[400px] md:min-h-[450px] lg:min-h-[600px] transition-all duration-1000 order-2 lg:order-1 ${
-              visibleSections.has('hero-section') ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-10'
-            }`}
+            <div className="relative flex items-center justify-center min-h-[300px] sm:min-h-[400px] md:min-h-[450px] lg:min-h-[600px] transition-all duration-1000 order-2 lg:order-1 opacity-100 translate-x-0"
             style={{ transitionDelay: '300ms' }}
             >
               {/* Decorative background gradient */}

@@ -10,30 +10,41 @@ export default function ServicesPage() {
   const [visibleSections, setVisibleSections] = useState<Set<string>>(new Set(['hero-section']))
   
   useEffect(() => {
-    // Trigger services section animation immediately on page load
-    const triggerServicesAnimation = setTimeout(() => {
-      setVisibleSections(prev => new Set(prev).add('services-section'))
-    }, 100)
-
-    // Check immediately if sections are visible on page load
+    // Check initial visibility of sections on page load
     const checkInitialVisibility = () => {
       const sections = document.querySelectorAll('[data-animate-section]')
+      const viewportHeight = window.innerHeight
+      
       sections.forEach((section) => {
+        if (!section.id) return
+        
         const rect = section.getBoundingClientRect()
-        const isVisible = rect.top < window.innerHeight && rect.bottom > 0
-        if (isVisible && section.id && section.id !== 'services-section') {
+        
+        // Check if section is anywhere in the viewport (more lenient check)
+        // If any part of the section is visible, show it immediately
+        const isInViewport = (
+          rect.top < viewportHeight * 1.5 && // Section top is within 1.5x viewport height
+          rect.bottom > -viewportHeight * 0.5 && // Section bottom is above -0.5x viewport
+          rect.top < viewportHeight + 200 // Section starts within viewport + 200px buffer
+        )
+        
+        // For initial load, be very lenient - if section is near or in viewport, show it
+        if (isInViewport) {
           setVisibleSections(prev => new Set(prev).add(section.id))
         }
       })
     }
 
-    // Check immediately
+    // Check immediately and multiple times to ensure DOM is ready (especially on mobile)
     checkInitialVisibility()
+    const initialCheckTimer = setTimeout(checkInitialVisibility, 50)
+    const secondCheckTimer = setTimeout(checkInitialVisibility, 200)
+    const thirdCheckTimer = setTimeout(checkInitialVisibility, 500)
 
     // Set up Intersection Observer for scroll-triggered animations
     const observerOptions = {
-      threshold: 0.1,
-      rootMargin: '0px 0px -50px 0px'
+      threshold: [0.05, 0.1, 0.2, 0.3], // Multiple thresholds for better detection
+      rootMargin: '50px 0px 50px 0px' // Larger margin to trigger earlier on mobile
     }
 
     const observer = new IntersectionObserver((entries) => {
@@ -44,14 +55,20 @@ export default function ServicesPage() {
       })
     }, observerOptions)
 
-    // Wait a bit for DOM to be ready
+    // Wait for DOM to be ready
     const timer = setTimeout(() => {
       const sections = document.querySelectorAll('[data-animate-section]')
-      sections.forEach(section => observer.observe(section))
-    }, 50)
+      sections.forEach(section => {
+        if (section.id) {
+          observer.observe(section)
+        }
+      })
+    }, 150)
 
     return () => {
-      clearTimeout(triggerServicesAnimation)
+      clearTimeout(initialCheckTimer)
+      clearTimeout(secondCheckTimer)
+      clearTimeout(thirdCheckTimer)
       clearTimeout(timer)
       observer.disconnect()
     }
@@ -375,7 +392,7 @@ export default function ServicesPage() {
                             <li key={idx} className="text-sm text-foreground/80 flex items-start gap-2">
                               <div className={`w-1.5 h-1.5 ${colors[idx % colors.length]} rounded-full mt-1.5 flex-shrink-0`} />
                               <span>{highlight}</span>
-                            </li>
+                          </li>
                           );
                         })}
                       </ul>
@@ -385,8 +402,8 @@ export default function ServicesPage() {
                   <Button className="w-full bg-blue-600 hover:bg-blue-700 text-white group-hover:shadow-lg transition-all duration-150">
                     <Link href="/contact" className="flex items-center justify-center gap-2 w-full">
                       Get Quote <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-150" />
-                    </Link>
-                  </Button>
+                      </Link>
+                    </Button>
                 </CardContent>
               </Card>
             ))}
@@ -433,7 +450,7 @@ export default function ServicesPage() {
               >
                 <div className={`w-16 h-16 bg-gradient-to-r ${step.color} rounded-full flex items-center justify-center mx-auto mb-4`}>
                   <span className="text-white font-bold text-xl">{step.num}</span>
-                </div>
+              </div>
                 <h3 className="text-xl font-semibold text-foreground mb-2">{step.title}</h3>
                 <p className="text-foreground/80">{step.desc}</p>
               </div>

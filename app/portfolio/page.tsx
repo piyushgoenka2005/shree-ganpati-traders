@@ -125,24 +125,67 @@ export default function PortfolioPage() {
   const [visibleSections, setVisibleSections] = useState<Set<string>>(new Set(['hero-section']))
   
   useEffect(() => {
+    // Check initial visibility of sections on page load
+    const checkInitialVisibility = () => {
+      const sections = document.querySelectorAll('[data-animate-section]')
+      const viewportHeight = window.innerHeight
+      
+      sections.forEach((section) => {
+        if (!section.id) return
+        
+        const rect = section.getBoundingClientRect()
+        
+        // Check if section is anywhere in the viewport (more lenient check)
+        // If any part of the section is visible, show it immediately
+        const isInViewport = (
+          rect.top < viewportHeight * 1.5 && // Section top is within 1.5x viewport height
+          rect.bottom > -viewportHeight * 0.5 && // Section bottom is above -0.5x viewport
+          rect.top < viewportHeight + 200 // Section starts within viewport + 200px buffer
+        )
+        
+        // For initial load, be very lenient - if section is near or in viewport, show it
+        if (isInViewport) {
+          setVisibleSections(prev => new Set(prev).add(section.id))
+        }
+      })
+    }
+
+    // Check immediately and multiple times to ensure DOM is ready (especially on mobile)
+    checkInitialVisibility()
+    const initialCheckTimer = setTimeout(checkInitialVisibility, 50)
+    const secondCheckTimer = setTimeout(checkInitialVisibility, 200)
+    const thirdCheckTimer = setTimeout(checkInitialVisibility, 500)
+
+    // Set up Intersection Observer for scroll-triggered animations
     const observerOptions = {
-      threshold: 0.1,
-      rootMargin: '0px 0px -50px 0px'
+      threshold: [0.05, 0.1, 0.2, 0.3], // Multiple thresholds for better detection
+      rootMargin: '50px 0px 50px 0px' // Larger margin to trigger earlier on mobile
     }
 
     const observer = new IntersectionObserver((entries) => {
       entries.forEach((entry) => {
-        if (entry.isIntersecting) {
+        if (entry.isIntersecting && entry.target.id) {
           setVisibleSections(prev => new Set(prev).add(entry.target.id))
         }
       })
     }, observerOptions)
 
-    const sections = document.querySelectorAll('[data-animate-section]')
-    sections.forEach(section => observer.observe(section))
+    // Wait for DOM to be ready
+    const timer = setTimeout(() => {
+      const sections = document.querySelectorAll('[data-animate-section]')
+      sections.forEach(section => {
+        if (section.id) {
+          observer.observe(section)
+        }
+      })
+    }, 150)
 
     return () => {
-      sections.forEach(section => observer.unobserve(section))
+      clearTimeout(initialCheckTimer)
+      clearTimeout(secondCheckTimer)
+      clearTimeout(thirdCheckTimer)
+      clearTimeout(timer)
+      observer.disconnect()
     }
   }, [])
 
@@ -152,21 +195,15 @@ export default function PortfolioPage() {
       <section 
         id="hero-section"
         data-animate-section
-        className={`py-16 bg-gradient-to-r from-blue-600 to-orange-600 text-white transition-all duration-1000 ${
-          visibleSections.has('hero-section') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
-        }`}
+        className="py-16 bg-gradient-to-r from-blue-600 to-orange-600 text-white transition-all duration-1000 opacity-100 translate-y-0"
       >
         <div className="container mx-auto px-4 text-center">
-          <h1 className={`text-4xl lg:text-5xl font-bold mb-4 transition-all duration-1000 ${
-            visibleSections.has('hero-section') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-5'
-          }`}
+          <h1 className="text-4xl lg:text-5xl font-bold mb-4 transition-all duration-1000 opacity-100 translate-y-0"
           style={{ transitionDelay: '200ms' }}
           >
             Our Portfolio
           </h1>
-          <p className={`text-xl opacity-90 max-w-3xl mx-auto transition-all duration-1000 ${
-            visibleSections.has('hero-section') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-5'
-          }`}
+          <p className="text-xl opacity-90 max-w-3xl mx-auto transition-all duration-1000 opacity-100 translate-y-0"
           style={{ transitionDelay: '400ms' }}
           >
             Explore our collection of successful printing projects and see how we've helped businesses and individuals achieve their goals.
@@ -178,10 +215,7 @@ export default function PortfolioPage() {
       <section 
         id="stats-section"
         data-animate-section
-        className={`py-12 bg-card transition-all duration-1000 ${
-          visibleSections.has('stats-section') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
-        }`}
-        style={{ transitionDelay: '200ms' }}
+        className="py-12 bg-card transition-all duration-1000 opacity-100 translate-y-0"
       >
         <div className="container mx-auto px-4">
           <div className="grid md:grid-cols-4 gap-8 text-center">
@@ -193,9 +227,7 @@ export default function PortfolioPage() {
             ].map((stat, index) => (
               <div 
                 key={index}
-                className={`transition-all duration-1000 ${
-                  visibleSections.has('stats-section') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
-                }`}
+                className="transition-all duration-1000 opacity-100 translate-y-0"
                 style={{ transitionDelay: `${300 + index * 100}ms` }}
               >
                 <div className={`text-3xl font-bold ${stat.color} mb-2`}>{stat.value}</div>

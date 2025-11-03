@@ -17,24 +17,63 @@ export default function ContactPage() {
   const [visibleSections, setVisibleSections] = useState<Set<string>>(new Set(['hero-section', 'cta-section']))
   
   useEffect(() => {
+    // Check initial visibility of sections on page load
+    const checkInitialVisibility = () => {
+      const sections = document.querySelectorAll('[data-animate-section]')
+      sections.forEach((section) => {
+        if (!section.id) return
+        
+        const rect = section.getBoundingClientRect()
+        const viewportHeight = window.innerHeight
+        const sectionHeight = rect.height
+        
+        // Calculate visible percentage
+        if (sectionHeight === 0) return // Skip if section has no height
+        
+        const visibleTop = Math.max(0, -rect.top)
+        const visibleBottom = Math.min(sectionHeight, viewportHeight - rect.top)
+        const visibleHeight = Math.max(0, visibleBottom - visibleTop)
+        const visiblePercentage = visibleHeight / sectionHeight
+        
+        // If 20-30% or more is visible, show the section immediately
+        if (visiblePercentage >= 0.2) {
+          setVisibleSections(prev => new Set(prev).add(section.id))
+        }
+      })
+    }
+
+    // Check immediately and after a short delay to ensure DOM is ready
+    checkInitialVisibility()
+    const initialCheckTimer = setTimeout(checkInitialVisibility, 100)
+
+    // Set up Intersection Observer for scroll-triggered animations
     const observerOptions = {
-      threshold: 0.1,
-      rootMargin: '0px 0px -50px 0px'
+      threshold: [0.2, 0.3], // Trigger when 20% or 30% of section is visible
+      rootMargin: '0px 0px -10% 0px' // Trigger earlier, even on mobile
     }
 
     const observer = new IntersectionObserver((entries) => {
       entries.forEach((entry) => {
-        if (entry.isIntersecting) {
+        if (entry.isIntersecting && entry.target.id) {
           setVisibleSections(prev => new Set(prev).add(entry.target.id))
         }
       })
     }, observerOptions)
 
-    const sections = document.querySelectorAll('[data-animate-section]')
-    sections.forEach(section => observer.observe(section))
+    // Wait for DOM to be ready
+    const timer = setTimeout(() => {
+      const sections = document.querySelectorAll('[data-animate-section]')
+      sections.forEach(section => {
+        if (section.id) {
+          observer.observe(section)
+        }
+      })
+    }, 150)
 
     return () => {
-      sections.forEach(section => observer.unobserve(section))
+      clearTimeout(initialCheckTimer)
+      clearTimeout(timer)
+      observer.disconnect()
     }
   }, [])
 
