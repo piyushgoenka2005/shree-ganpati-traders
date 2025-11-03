@@ -27,7 +27,7 @@ export default function RootLayout({
           <Header />
           {children}
           <Footer />
-          {/* <SplashCursor /> */}
+          <SplashCursor />
           <Analytics />
         </ThemeProvider>
       </body>
