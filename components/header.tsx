@@ -78,32 +78,77 @@ export default function Header() {
             <ThemeToggle />
             <button
               onClick={() => setIsMenuOpen(!isMenuOpen)}
+              className="transition-transform duration-300 hover:scale-110"
             >
-              {isMenuOpen ? <X className="w-6 h-6 text-foreground" /> : <Menu className="w-6 h-6 text-foreground" />}
+              {isMenuOpen ? (
+                <X className="w-6 h-6 text-foreground transition-all duration-300 rotate-0" />
+              ) : (
+                <Menu className="w-6 h-6 text-foreground transition-all duration-300 rotate-0" />
+              )}
             </button>
           </div>
         </div>
 
         {/* Mobile Navigation */}
-        {isMenuOpen && (
-          <div className="md:hidden py-4 border-t border-border">
+        <div 
+          className={`md:hidden overflow-hidden transition-all duration-300 ease-in-out ${
+            isMenuOpen 
+              ? 'max-h-[600px] opacity-100' 
+              : 'max-h-0 opacity-0'
+          }`}
+        >
+          <div className="py-4 border-t border-border">
             <nav className="flex flex-col space-y-4">
-              {navigation.map((item) => (
+              {navigation.map((item, index) => (
                 <Link
                   key={item.name}
                   href={item.href}
-                  className="text-foreground/80 hover:text-blue-600 dark:hover:text-blue-400 font-medium transition-colors duration-200"
+                  className={`text-foreground/80 hover:text-blue-600 dark:hover:text-blue-400 font-medium transition-all duration-200 transform ${
+                    isMenuOpen
+                      ? 'opacity-100 translate-x-0'
+                      : 'opacity-0 -translate-x-4'
+                  }`}
+                  style={{ 
+                    transitionDelay: isMenuOpen ? `${index * 50 + 100}ms` : '0ms' 
+                  }}
                   onClick={() => setIsMenuOpen(false)}
                 >
                   {item.name}
                 </Link>
               ))}
-              <Button className="bg-blue-600 hover:bg-blue-700 text-white mt-4">
-                <Link href="/contact">Get Quote</Link>
+              <Button 
+                className={`bg-blue-600 hover:bg-blue-700 text-white mt-4 transition-all duration-200 transform ${
+                  isMenuOpen
+                    ? 'opacity-100 translate-y-0'
+                    : 'opacity-0 translate-y-4'
+                }`}
+                style={{ 
+                  transitionDelay: isMenuOpen ? `${navigation.length * 50 + 150}ms` : '0ms' 
+                }}
+              >
+                <Link href="/contact" className="flex items-center justify-center w-full">Get Quote</Link>
+              </Button>
+              <Button 
+                variant="outline"
+                className={`border-green-600 text-green-600 hover:bg-green-50 dark:hover:bg-green-950 mt-2 transition-all duration-200 transform ${
+                  isMenuOpen
+                    ? 'opacity-100 translate-y-0'
+                    : 'opacity-0 translate-y-4'
+                }`}
+                style={{ 
+                  transitionDelay: isMenuOpen ? `${navigation.length * 50 + 200}ms` : '0ms' 
+                }}
+                onClick={() => {
+                  window.location.href = 'tel:+918100237440'
+                  setIsMenuOpen(false)
+                }}
+              >
+                <Phone className="w-4 h-4 mr-2" />
+                Call Now
               </Button>
             </nav>
           </div>
-        )}
+        </div>
       </div>
     </header>
   )

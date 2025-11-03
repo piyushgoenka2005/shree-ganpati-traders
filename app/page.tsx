@@ -8,6 +8,20 @@ import { ArrowRight, CheckCircle, Star, Phone, Mail, MapPin } from 'lucide-react
 import Stack from "@/components/Stack"
 
 export default function HomePage() {
+  const [isMobile, setIsMobile] = useState(false)
+  const [isTablet, setIsTablet] = useState(false)
+  
+  useEffect(() => {
+    const checkScreenSize = () => {
+      setIsMobile(window.innerWidth < 640)
+      setIsTablet(window.innerWidth >= 640 && window.innerWidth < 1024)
+    }
+    
+    checkScreenSize()
+    window.addEventListener('resize', checkScreenSize)
+    return () => window.removeEventListener('resize', checkScreenSize)
+  }, [])
+
   const services = [
     {
       title: "Printing Solutions",
@@ -111,60 +125,60 @@ export default function HomePage() {
       <section 
         id="hero-section"
         data-animate-section
-        className={`relative pt-16 pb-10 lg:pt-24 lg:pb-20 overflow-hidden transition-all duration-1000 ${
+        className={`relative pt-20 pb-12 sm:pt-16 sm:pb-10 lg:pt-24 lg:pb-20 overflow-hidden transition-all duration-1000 ${
           visibleSections.has('hero-section') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
         }`}
       >
         <div className="absolute inset-0 bg-gradient-to-r from-blue-600/10 to-orange-600/10" />
-        <div className="container mx-auto px-4 relative z-10">
-          <div className="grid lg:grid-cols-2 gap-12 items-center max-w-7xl mx-auto">
-            <div className="space-y-8">
-              <div className={`space-y-4 transition-all duration-1000 ${
+        <div className="container mx-auto px-4 sm:px-6 relative z-10">
+          <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center max-w-7xl mx-auto">
+            <div className="space-y-6 sm:space-y-8 order-1 lg:order-2">
+              <div className={`space-y-3 sm:space-y-4 transition-all duration-1000 ${
                 visibleSections.has('hero-section') ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-10'
               }`}
               style={{ transitionDelay: '200ms' }}
               >
-                <h1 className="text-4xl lg:text-6xl font-bold text-foreground leading-tight">
+                <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-foreground leading-tight sm:leading-tight">
                   Premium <span className="text-blue-600">Printing</span> Solutions for Your <span className="text-orange-600">Business</span>
                 </h1>
-                <p className="text-xl text-foreground/80 leading-relaxed">
+                <p className="text-base sm:text-lg lg:text-xl text-foreground/80 leading-relaxed">
                   From visiting cards to custom bags, we deliver exceptional printing services that elevate your brand and make lasting impressions.
                 </p>
               </div>
-              <div className={`flex flex-col sm:flex-row gap-4 transition-all duration-1000 ${
+              <div className={`flex flex-col sm:flex-row gap-3 sm:gap-4 transition-all duration-1000 ${
                 visibleSections.has('hero-section') ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-10'
               }`}
               style={{ transitionDelay: '400ms' }}
               >
-                <Button size="lg" className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3">
-                  <Link href="/services" className="flex items-center gap-2">
+                <Button size="lg" className="bg-blue-600 hover:bg-blue-700 text-white px-6 sm:px-8 py-3 w-full sm:w-auto text-sm sm:text-base">
+                  <Link href="/services" className="flex items-center justify-center gap-2 w-full sm:w-auto">
                     Explore Services <ArrowRight className="w-4 h-4" />
                   </Link>
                 </Button>
-                <Button size="lg" variant="outline" className="border-orange-600 text-orange-600 hover:bg-orange-50 dark:hover:bg-orange-950 px-8 py-3">
-                  <Link href="/contact">Get Quote</Link>
+                <Button size="lg" variant="outline" className="border-orange-600 text-orange-600 hover:bg-orange-50 dark:hover:bg-orange-950 px-6 sm:px-8 py-3 w-full sm:w-auto text-sm sm:text-base">
+                  <Link href="/contact" className="flex items-center justify-center w-full sm:w-auto">Get Quote</Link>
                 </Button>
               </div>
-              <div className={`flex items-center gap-8 pt-4 transition-all duration-1000 ${
+              <div className={`flex items-center justify-between sm:justify-start gap-4 sm:gap-6 lg:gap-8 pt-2 sm:pt-4 transition-all duration-1000 ${
                 visibleSections.has('hero-section') ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-10'
               }`}
               style={{ transitionDelay: '600ms' }}
               >
-                <div className="text-center">
-                  <div className="text-2xl font-bold text-blue-600">500+</div>
-                  <div className="text-sm text-foreground/70">Happy Clients</div>
+                <div className="text-center flex-1 sm:flex-none">
+                  <div className="text-xl sm:text-2xl font-bold text-blue-600">500+</div>
+                  <div className="text-xs sm:text-sm text-foreground/70">Happy Clients</div>
                 </div>
-                <div className="text-center">
-                  <div className="text-2xl font-bold text-orange-600">10+</div>
-                  <div className="text-sm text-foreground/70">Years Experience</div>
+                <div className="text-center flex-1 sm:flex-none">
+                  <div className="text-xl sm:text-2xl font-bold text-orange-600">10+</div>
+                  <div className="text-xs sm:text-sm text-foreground/70">Years Experience</div>
                 </div>
-                <div className="text-center">
-                  <div className="text-2xl font-bold text-green-600">24hrs</div>
-                  <div className="text-sm text-foreground/70">Quick Delivery</div>
+                <div className="text-center flex-1 sm:flex-none">
+                  <div className="text-xl sm:text-2xl font-bold text-green-600">24hrs</div>
+                  <div className="text-xs sm:text-sm text-foreground/70">Quick Delivery</div>
                 </div>
               </div>
             </div>
-            <div className={`relative flex items-center justify-center min-h-[500px] lg:min-h-[600px] transition-all duration-1000 ${
+            <div className={`relative flex items-center justify-center min-h-[300px] sm:min-h-[400px] md:min-h-[450px] lg:min-h-[600px] transition-all duration-1000 order-2 lg:order-1 ${
               visibleSections.has('hero-section') ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-10'
             }`}
             style={{ transitionDelay: '300ms' }}
@@ -173,21 +187,24 @@ export default function HomePage() {
               <div className="absolute inset-0 bg-gradient-to-r from-blue-400/20 via-purple-400/20 to-orange-400/20 rounded-3xl transform rotate-3 blur-3xl" />
               <div className="absolute inset-0 bg-gradient-to-br from-blue-600/10 to-orange-600/10 rounded-3xl" />
               
-              {/* Stack component with better sizing */}
-              <div className="relative z-10 transform hover:scale-105 transition-transform duration-300">
+              {/* Stack component with responsive sizing */}
+              <div className="relative z-10 transition-transform duration-300 hover:scale-105">
                 <Stack
                   randomRotation={true}
                   sensitivity={180}
                   sendToBackOnClick={false}
-                  cardDimensions={{ width: 500, height: 500 }}
+                  cardDimensions={{
+                    width: isMobile ? 250 : isTablet ? 350 : 500,
+                    height: isMobile ? 250 : isTablet ? 350 : 500
+                  }}
                   cardsData={images}
                   animationConfig={{ stiffness: 200, damping: 30 }}
                 />
               </div>
               
-              {/* Additional decorative elements */}
-              <div className="absolute -top-10 -right-10 w-32 h-32 bg-blue-500/10 rounded-full blur-2xl" />
-              <div className="absolute -bottom-10 -left-10 w-40 h-40 bg-orange-500/10 rounded-full blur-3xl" />
+              {/* Additional decorative elements - hidden on mobile */}
+              <div className="hidden lg:block absolute -top-10 -right-10 w-32 h-32 bg-blue-500/10 rounded-full blur-2xl" />
+              <div className="hidden lg:block absolute -bottom-10 -left-10 w-40 h-40 bg-orange-500/10 rounded-full blur-3xl" />
             </div>
           </div>
         </div>
