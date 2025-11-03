@@ -1,153 +1,233 @@
 import Image from "next/image"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Badge } from "@/components/ui/badge"
-import { CheckCircle, ArrowRight, Star, Clock, Shield, Palette } from 'lucide-react'
-import Header from "@/components/header"
-import Footer from "@/components/footer"
+import { Card, CardContent } from "@/components/ui/card"
+import { CheckCircle, ArrowRight, Clock, Shield, Palette } from 'lucide-react'
 
 export default function ServicesPage() {
   const services = [
     {
-      id: "visiting-cards",
-      title: "Visiting Cards",
-      description: "Professional business cards that make lasting first impressions with premium materials and custom designs.",
-      image: "/placeholder.svg?height=300&width=400",
-      price: "Starting from ₹299",
-      features: [
-        "Premium 300GSM cardstock",
-        "Matte/Glossy finish options",
-        "Custom design consultation",
-        "Quick 24-hour delivery",
-        "Bulk order discounts",
-        "Digital proof before printing"
-      ],
-      specifications: {
-        "Standard Size": "3.5\" x 2\"",
-        "Material": "300GSM Art Card",
-        "Finish": "Matte/Glossy/UV Spot",
-        "Colors": "Full Color (CMYK)",
-        "Minimum Order": "100 pieces"
-      },
-      popular: true
+      id: "letterhead",
+      title: "Letterhead Printing",
+      description: "Professional letterheads and stationery for business correspondence with custom branding.",
+      image: "https://5.imimg.com/data5/SELLER/Default/2022/2/NO/BM/KE/11233291/letterhead-printing.jpg",
+      price: 3,
+      minQuantity: 100,
+      highlights: [
+        "Premium quality paper (80-100 GSM)",
+        "Custom logo and branding design",
+        "Quick printing with various size options"
+      ]
     },
     {
-      id: "custom-bags",
-      title: "Custom Bags",
-      description: "Eco-friendly and branded bags perfect for retail, events, and promotional activities.",
-      image: "/placeholder.svg?height=300&width=400",
-      price: "Starting from ₹15",
-      features: [
-        "Various material options",
-        "Custom size and design",
-        "Eco-friendly materials",
-        "Bulk order pricing",
-        "Brand logo printing",
-        "Handle customization"
-      ],
-      specifications: {
-        "Materials": "Paper, Non-woven, Canvas",
-        "Sizes": "Custom sizes available",
-        "Printing": "Screen/Digital printing",
-        "Handle": "Rope/Ribbon/Die-cut",
-        "Minimum Order": "500 pieces"
-      }
+      id: "visiting-card",
+      title: "Visiting Card Printing",
+      description: "Professional business cards that make lasting first impressions with premium materials & custom design.",
+      image: "https://www.creativeartsdesigning.in/wp-content/uploads/2017/03/QR-Visiting-card-single-side.jpg",
+      price: 2.5,
+      minQuantity: 100,
+      highlights: [
+        "300GSM premium cardstock available",
+        "QR code and digital integration options",
+        "Matte, glossy, and UV finish choices"
+      ]
     },
     {
-      id: "id-cards",
-      title: "ID Cards",
-      description: "Secure and professional identification cards with advanced security features for organizations.",
-      image: "/placeholder.svg?height=300&width=400",
-      price: "Starting from ₹25",
-      features: [
-        "PVC card material",
-        "Security hologram options",
-        "Magnetic stripe available",
-        "Photo quality printing",
-        "Barcode/QR code integration",
-        "Lanyard and accessories"
-      ],
-      specifications: {
-        "Material": "PVC/Teslin",
-        "Size": "CR80 (85.6 x 53.98mm)",
-        "Thickness": "0.76mm",
-        "Security": "Hologram/UV printing",
-        "Minimum Order": "50 pieces"
-      }
+      id: "bill-book",
+      title: "Bill Book Printing",
+      description: "Custom bill books and invoice pads for businesses with professional layouts and branding.",
+      image: "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgTVyhUTGYJJjVwQzINWRg84AKq-wCcJyVMjyiYfv6GcUNkP7wynzyC2-c2eSAPMshSgF5lHddGQ2qr0wwHuAdOHWd7dfmweUUO_tIDOxFaXLWQf8pxcGnpfU6aRZidRDG-pj4Z3V7MgskV/s2048/Bill-book-triplicate2.jpg",
+      price: 120,
+      minQuantity: 10,
+      highlights: [
+        "Duplicate and triplicate options",
+        "Custom serial numbering available",
+        "Professional layout and formatting"
+      ]
     },
     {
-      id: "brochures",
-      title: "Brochures & Flyers",
-      description: "Eye-catching marketing materials that effectively communicate your message and promote your business.",
-      image: "/placeholder.svg?height=300&width=400",
-      price: "Starting from ₹5",
-      features: [
-        "Various fold options",
-        "High-quality paper",
-        "Full-color printing",
-        "Custom sizes available",
-        "Design assistance",
-        "Fast turnaround"
-      ],
-      specifications: {
-        "Paper": "130-300GSM",
-        "Sizes": "A4, A5, DL, Custom",
-        "Folds": "Bi-fold, Tri-fold, Z-fold",
-        "Finish": "Matte/Glossy",
-        "Minimum Order": "100 pieces"
-      }
+      id: "vouchers",
+      title: "Vouchers",
+      description: "Custom voucher printing for promotions, discounts, and special offers with security features.",
+      image: "https://images.jdmagicbox.com/quickquotes/images_main/gift-voucher-printing-service-2226609542-n76x0dmk.jpg",
+      price: 0.8,
+      minQuantity: 1000,
+      highlights: [
+        "Security features and unique codes",
+        "Multiple design templates available",
+        "Watermark and anti-counterfeit options"
+      ]
     },
     {
-      id: "banners",
-      title: "Banners & Signage",
-      description: "Large format printing for outdoor and indoor advertising, events, and promotional displays.",
-      image: "/placeholder.svg?height=300&width=400",
-      price: "Starting from ₹50/sq ft",
-      features: [
-        "Weather-resistant materials",
-        "Various sizes available",
-        "Indoor/outdoor options",
-        "Grommets and finishing",
-        "High-resolution printing",
-        "Installation support"
-      ],
-      specifications: {
-        "Materials": "Vinyl, Flex, Canvas",
-        "Resolution": "720-1440 DPI",
-        "Sizes": "Custom sizes",
-        "Finishing": "Hemming, Grommets",
-        "Minimum Order": "1 piece"
-      }
+      id: "pamphlets",
+      title: "Pamphlets",
+      description: "Eye-catching pamphlets for marketing, events, and information distribution with vibrant printing.",
+      image: "https://www.perprint.in/wp-content/uploads/2023/05/Flyers-images.jpg",
+      highlights: [
+        "Full-color vibrant printing",
+        "Various sizes and fold options",
+        "Bulk printing discounts available"
+      ]
+    },
+    {
+      id: "catalogues",
+      title: "Catalogues",
+      description: "Comprehensive catalogues showcasing your products and services with premium printing quality.",
+      image: "https://www.gayathriprints.com/img/catalogues.jpg",
+      highlights: [
+        "High-resolution photo printing",
+        "Binding and finishing options",
+        "Custom page layouts and designs"
+      ]
+    },
+    {
+      id: "premium-cards",
+      title: "Premium Cards",
+      description: "Luxury premium cards with special finishes, textures, and premium materials for elite branding.",
+      image: "https://www.meraprint.com/wp-content/uploads/2021/09/business-visiting-cards-1.jpg",
+      price: 2,
+      minQuantity: 1000,
+      highlights: [
+        "Luxury finishes and textures",
+        "Embossed and debossed options",
+        "Premium 350GSM+ cardstock"
+      ]
     },
     {
       id: "stickers",
-      title: "Stickers & Labels",
-      description: "Custom stickers and labels for branding, packaging, and promotional purposes with various materials.",
-      image: "/placeholder.svg?height=300&width=400",
-      price: "Starting from ₹2",
-      features: [
-        "Waterproof options",
-        "Various shapes and sizes",
-        "Strong adhesive",
-        "UV-resistant inks",
-        "Die-cut options",
-        "Bulk pricing available"
-      ],
-      specifications: {
-        "Materials": "Vinyl, Paper, Transparent",
-        "Adhesive": "Permanent/Removable",
-        "Finish": "Matte/Glossy/Transparent",
-        "Cutting": "Kiss-cut/Die-cut",
-        "Minimum Order": "100 pieces"
-      }
+      title: "Stickers",
+      description: "Custom stickers and promotional items with unique designs and high-quality printing.",
+      image: "https://images.jdmagicbox.com/quickquotes/images_main/printing-services-for-pvc-sticker-2223061475-x26rd0gq.jpg",
+      highlights: [
+        "Waterproof and weather-resistant",
+        "Die-cut and custom shapes",
+        "Strong adhesive options available"
+      ]
+    },
+    {
+      id: "engravings",
+      title: "Engravings",
+      description: "Precision engraving services for metal, wood, and other materials with intricate designs.",
+      image: "https://www.thewalletstore.in/cdn/shop/products/04_37383af6-1fe0-4c08-9794-7147f5393d13.jpg?v=1737714853&width=1280",
+      highlights: [
+        "Precision laser engraving",
+        "Multiple material options",
+        "Custom designs and monograms"
+      ]
+    },
+    {
+      id: "uv-cards",
+      title: "UV Cards",
+      description: "Business cards with UV spot printing for premium finish and eye-catching visual effects.",
+      image: "https://5.imimg.com/data5/SELLER/Default/2023/8/336967900/ZT/BT/OX/145954645/raised-spot-uv-business-card.jpg",
+      price: 4.5,
+      minQuantity: 1000,
+      highlights: [
+        "Raised spot UV effects",
+        "Selective gloss finish options",
+        "Premium tactile experience"
+      ]
+    },
+    {
+      id: "foil-card",
+      title: "Foil Card",
+      description: "Elegant foil-stamped cards with gold, silver, or colored foil for luxury branding.",
+      image: "https://i.etsystatic.com/23185647/r/il/5334b5/2347199913/il_570xN.2347199913_irw4.jpg",
+      highlights: [
+        "Gold, silver, and colored foil options",
+        "Hot foil stamping technique",
+        "Luxury metallic finish"
+      ]
+    },
+    {
+      id: "texture-sheet",
+      title: "Texture Sheet",
+      description: "Specialty texture sheets for unique tactile experiences and premium print finishes.",
+      image: "https://tiimg.tistatic.com/fp/1/008/431/3mm-thick-rectangular-224-gsm-plain-shinny-embossed-textured-sheet-980.jpg",
+      price: 15,
+      minQuantity: 10,
+      highlights: [
+        "Various texture patterns available",
+        "Premium GSM options",
+        "Custom texture designs"
+      ]
+    },
+    {
+      id: "visiting-card-box",
+      title: "Visiting Card Box",
+      description: "Premium card boxes and holders to present your business cards elegantly and professionally.",
+      image: "https://m.media-amazon.com/images/I/31zPuDQ-AeL._AC_UF1000,1000_QL80_.jpg",
+      price: 2.7,
+      minQuantity: 1000,
+      highlights: [
+        "Elegant presentation boxes",
+        "Custom branding options",
+        "Various sizes and finishes"
+      ]
+    },
+    {
+      id: "id-card",
+      title: "ID Card",
+      description: "Secure and professional identification cards with advanced security features for organizations.",
+      image: "https://m.media-amazon.com/images/I/51o8Ihu1gZL.jpg",
+      price: 30,
+      minQuantity: 50,
+      highlights: [
+        "PVC and Teslin materials",
+        "Hologram and security features",
+        "Barcode and QR code integration"
+      ]
+    },
+    {
+      id: "lanyard",
+      title: "Lanyard",
+      description: "Custom lanyards for ID cards, badges, and event access with various materials and printing options.",
+      image: "https://www.swagify.com/blog/wp-content/uploads/2024/03/A-collection-of-different-colored-lanyards-kept-with-each-other.jpg",
+      price: 20,
+      minQuantity: 50,
+      highlights: [
+        "Custom printing and branding",
+        "Various width and material options",
+        "Bulk order pricing available"
+      ]
+    },
+    {
+      id: "tshirt-printing",
+      title: "T-Shirt Printing",
+      description: "Customized t-shirt printing for events, promotions, and personal use using high-quality fabrics and long-lasting prints.",
+      image: "https://phoenixprint.in/wp-content/uploads/2025/01/1931.Ganpati-best-image-printed-t-shirt-for-men.jpg",
+      highlights: [
+        "Durable fabric and colorfast printing",
+        "Custom logo and design options",
+        "Available in multiple sizes and colors"
+      ]
+    },
+    {
+      id: "mug-printing",
+      title: "Mug Printing",
+      description: "Personalized mug printing for gifts, branding, or corporate giveaways with premium ceramic finishes.",
+      image: "https://printposters.in/public/uploads/canvas-prints/1727083349.jpg",
+      highlights: [
+        "Full-color sublimation printing",
+        "Microwave and dishwasher safe",
+        "Ideal for bulk corporate gifting"
+      ]
+    },
+    {
+      id: "shopping-bag-printing",
+      title: "Shopping Bag Printing",
+      description: "Eco-friendly custom printed shopping bags made of non-woven, jute, or cotton material for branding and retail use.",
+      image: "https://www.shutterstock.com/shutterstock/photos/1354256210/display_1500/stock-vector-textile-environmentally-friendly-reusable-shopping-bags-with-lettering-say-no-to-plastic-bags-eco-1354256210.jpg",
+      highlights: [
+        "Reusable and eco-friendly materials",
+        "Custom logo and design printing",
+        "Available in various sizes and colors"
+      ]
     }
   ]
 
   return (
-    <div className="min-h-screen bg-background">
-      <Header />
-      
+    <div className="min-h-screen bg-background">  
       {/* Hero Section */}
       <section className="py-16 bg-gradient-to-r from-blue-600 to-orange-600 text-white">
         <div className="container mx-auto px-4 text-center">
@@ -163,78 +243,69 @@ export default function ServicesPage() {
       {/* Services Grid */}
       <section className="py-20">
         <div className="container mx-auto px-4">
-          <div className="grid lg:grid-cols-2 gap-12">
+          <div className="grid lg:grid-cols-3 gap-8 max-w-7xl mx-auto">
             {services.map((service, index) => (
-              <Card key={service.id} className="overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-300 border-0">
-                <div className="relative">
+              <Card key={service.id} className="group overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-300 border border-border rounded-xl p-0 hover:scale-105 hover:-translate-y-2 cursor-pointer">
+                <div className="relative -m-px overflow-hidden">
                   <Image
                     src={service.image || "/placeholder.svg"}
                     alt={service.title}
                     width={400}
                     height={300}
-                    className="w-full h-64 object-cover"
+                    className="w-full h-64 object-cover rounded-t-xl group-hover:scale-110 transition-transform duration-500"
                   />
-                  {service.popular && (
-                    <Badge className="absolute top-4 right-4 bg-orange-600 hover:bg-orange-700">
-                      <Star className="w-3 h-3 mr-1" />
-                      Popular
-                    </Badge>
-                  )}
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-t-xl" />
+                  
+                  {/* Price Badge - Bottom Left */}
+                  {service.price && (
                     <div className="absolute bottom-4 left-4">
-                      <div className="bg-background/90 backdrop-blur-sm rounded-lg px-3 py-1">
-                        <span className="text-lg font-bold text-foreground">{service.price}</span>
+                      <div className="bg-background/95 backdrop-blur-sm rounded-lg px-3 py-2 shadow-lg border border-border/50">
+                        <span className="text-sm font-semibold text-foreground">Starting from ₹{service.price}</span>
                       </div>
                     </div>
+                  )}
+                  
+                  {/* Min Quantity Badge - Bottom Right */}
+                  {service.minQuantity && (
+                    <div className="absolute bottom-4 right-4">
+                      <div className="bg-background/95 backdrop-blur-sm rounded-lg px-3 py-2 shadow-lg border border-border/50">
+                        <span className="text-sm font-semibold text-foreground">Min Qn {service.minQuantity}</span>
+                      </div>
+                    </div>
+                  )}
                 </div>
                 
-                <CardContent className="p-8">
+                <CardContent className="p-6">
                   <div className="mb-6">
-                    <h3 className="text-2xl font-bold text-foreground mb-2">{service.title}</h3>
-                    <p className="text-foreground/80 leading-relaxed">{service.description}</p>
+                    <h3 className="text-xl font-bold text-foreground mb-3 group-hover:text-blue-600 transition-colors duration-300">{service.title}</h3>
+                    <p className="text-foreground/80 leading-relaxed text-sm group-hover:text-foreground/90 transition-colors duration-300">{service.description}</p>
                   </div>
 
-                  <div className="grid md:grid-cols-2 gap-6 mb-6">
-                    <div>
-                      <h4 className="font-semibold text-foreground mb-3 flex items-center gap-2">
+                  <div className="mb-6">
+                    <div className="bg-muted/50 rounded-lg p-4 border border-border">
+                      <h4 className="font-semibold text-foreground mb-3 flex items-center gap-2 text-sm">
                         <CheckCircle className="w-4 h-4 text-green-500" />
-                        Key Features
+                        Service Highlights
                       </h4>
-                      <ul className="space-y-2">
-                        {service.features.slice(0, 3).map((feature, idx) => (
-                          <li key={idx} className="text-sm text-foreground/80 flex items-center gap-2">
-                            <div className="w-1.5 h-1.5 bg-blue-500 rounded-full" />
-                            {feature}
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                    
-                    <div>
-                      <h4 className="font-semibold text-foreground mb-3 flex items-center gap-2">
-                        <Palette className="w-4 h-4 text-orange-500" />
-                        Specifications
-                      </h4>
-                      <ul className="space-y-2">
-                        {Object.entries(service.specifications).slice(0, 3).map(([key, value], idx) => (
-                          <li key={idx} className="text-sm">
-                            <span className="text-muted-foreground">{key}:</span>
-                            <span className="text-foreground/80 ml-1">{value}</span>
-                          </li>
-                        ))}
+                      <ul className="space-y-2.5">
+                        {service.highlights.map((highlight, idx) => {
+                          const colors = ['bg-blue-500', 'bg-orange-500', 'bg-green-500'];
+                          return (
+                            <li key={idx} className="text-sm text-foreground/80 flex items-start gap-2">
+                              <div className={`w-1.5 h-1.5 ${colors[idx % colors.length]} rounded-full mt-1.5 flex-shrink-0`} />
+                              <span>{highlight}</span>
+                            </li>
+                          );
+                        })}
                       </ul>
                     </div>
                   </div>
 
-                  <div className="flex flex-col sm:flex-row gap-3">
-                    <Button className="bg-blue-600 hover:bg-blue-700 text-white flex-1">
-                      <Link href="/contact" className="flex items-center gap-2">
-                        Get Quote <ArrowRight className="w-4 h-4" />
-                      </Link>
-                    </Button>
-                    <Button variant="outline" className="border-orange-600 text-orange-600 hover:bg-orange-50 dark:hover:bg-orange-950">
-                      View Samples
-                    </Button>
-                  </div>
+                  <Button className="w-full bg-blue-600 hover:bg-blue-700 text-white group-hover:shadow-lg transition-all duration-300">
+                    <Link href="/contact" className="flex items-center justify-center gap-2 w-full">
+                      Get Quote <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-300" />
+                    </Link>
+                  </Button>
                 </CardContent>
               </Card>
             ))}
@@ -287,35 +358,6 @@ export default function ServicesPage() {
         </div>
       </section>
 
-      {/* Features Section */}
-      <section className="py-20 bg-muted/30">
-        <div className="container mx-auto px-4">
-          <div className="grid md:grid-cols-3 gap-8">
-            <div className="text-center">
-              <div className="w-16 h-16 bg-blue-100 dark:bg-blue-900/30 rounded-full flex items-center justify-center mx-auto mb-4">
-                <Clock className="w-8 h-8 text-blue-600" />
-              </div>
-              <h3 className="text-xl font-semibold text-foreground mb-2">Fast Turnaround</h3>
-              <p className="text-foreground/80">Most orders completed within 24-48 hours without compromising quality.</p>
-            </div>
-            <div className="text-center">
-              <div className="w-16 h-16 bg-orange-100 dark:bg-orange-900/30 rounded-full flex items-center justify-center mx-auto mb-4">
-                <Shield className="w-8 h-8 text-orange-600" />
-              </div>
-              <h3 className="text-xl font-semibold text-foreground mb-2">Quality Guarantee</h3>
-              <p className="text-foreground/80">100% satisfaction guarantee with premium materials and expert craftsmanship.</p>
-            </div>
-            <div className="text-center">
-              <div className="w-16 h-16 bg-green-100 dark:bg-green-900/30 rounded-full flex items-center justify-center mx-auto mb-4">
-                <Palette className="w-8 h-8 text-green-600" />
-              </div>
-              <h3 className="text-xl font-semibold text-foreground mb-2">Custom Design</h3>
-              <p className="text-foreground/80">Professional design services to create unique and impactful print materials.</p>
-            </div>
-          </div>
-        </div>
-      </section>
-
       {/* CTA Section */}
       <section className="py-20 bg-gradient-to-r from-blue-600 to-orange-600 text-white">
         <div className="container mx-auto px-4 text-center">
@@ -337,8 +379,6 @@ export default function ServicesPage() {
           </div>
         </div>
       </section>
-
-      <Footer />
     </div>
   )
 }

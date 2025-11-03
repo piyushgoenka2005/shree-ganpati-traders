@@ -58,7 +58,7 @@ export default function Footer() {
             <div className="space-y-3">
               <div className="flex items-center gap-3">
                 <Phone className="w-5 h-5 text-blue-500" />
-                <span className="text-muted-foreground">+91 98765 43210</span>
+                <span className="text-muted-foreground">+91 81002 37440</span>
               </div>
               <div className="flex items-center gap-3">
                 <Mail className="w-5 h-5 text-orange-500" />
@@ -67,8 +67,8 @@ export default function Footer() {
               <div className="flex items-start gap-3">
                 <MapPin className="w-5 h-5 text-green-500 mt-1" />
                 <span className="text-muted-foreground">
-                  123 Business District,<br />
-                  Mumbai, Maharashtra 400001
+                  19, Brabourne Road,<br />
+                  Kolkata, West Bengal 700001
                 </span>
               </div>
             </div>

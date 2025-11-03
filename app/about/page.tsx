@@ -4,39 +4,23 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { ArrowRight, Award, Users, Clock, Target, Heart, Lightbulb } from 'lucide-react'
-import Header from "@/components/header"
-import Footer from "@/components/footer"
 
 export default function AboutPage() {
   const teamMembers = [
     {
-      name: "Ganesh Patel",
-      position: "Founder & CEO",
-      experience: "15+ years",
-      image: "/placeholder.svg?height=300&width=300",
+      name: "Pankaj Goenka",
+      position: "Owner",
+      experience: "10+ years",
+      image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=400&auto=format&fit=crop",
       bio: "Visionary leader with over 15 years in the printing industry. Started Ganpati Traders with a mission to provide quality printing solutions to businesses of all sizes."
     },
     {
-      name: "Priya Sharma",
-      position: "Creative Director",
+      name: "Kamal Kumar Goenka",
+      position: "Manager",
       experience: "10+ years",
-      image: "/placeholder.svg?height=300&width=300",
+      image: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=400&auto=format&fit=crop",
       bio: "Award-winning designer specializing in brand identity and print design. Leads our creative team to deliver innovative and impactful design solutions."
     },
-    {
-      name: "Rajesh Kumar",
-      position: "Production Manager",
-      experience: "12+ years",
-      image: "/placeholder.svg?height=300&width=300",
-      bio: "Expert in print production and quality control. Ensures every project meets our high standards and is delivered on time."
-    },
-    {
-      name: "Anita Desai",
-      position: "Customer Relations Manager",
-      experience: "8+ years",
-      image: "/placeholder.svg?height=300&width=300",
-      bio: "Dedicated to providing exceptional customer service and building long-lasting relationships with our clients."
-    }
   ]
 
   const milestones = [
@@ -106,9 +90,7 @@ export default function AboutPage() {
   ]
 
   return (
-    <div className="min-h-screen bg-background">
-      <Header />
-      
+    <div className="min-h-screen bg-background"> 
       {/* Hero Section */}
       <section className="py-16 bg-gradient-to-r from-blue-600 to-orange-600 text-white">
         <div className="container mx-auto px-4 text-center">
@@ -123,7 +105,7 @@ export default function AboutPage() {
 
       {/* Company Story */}
       <section className="py-20 bg-card">
-        <div className="container mx-auto px-4">
+        <div className="container mx-auto px-4 max-w-7xl">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <div>
               <h2 className="text-3xl lg:text-4xl font-bold text-foreground mb-6">
@@ -151,7 +133,7 @@ export default function AboutPage() {
             <div className="relative">
               <div className="absolute inset-0 bg-gradient-to-r from-blue-400 to-orange-400 rounded-3xl transform rotate-3 opacity-20" />
               <Image
-                src="/placeholder.svg?height=500&width=600"
+                src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?q=80&w=1200&auto=format&fit=crop"
                 alt="Ganpati Traders Team"
                 width={600}
                 height={500}
@@ -213,7 +195,7 @@ export default function AboutPage() {
             </p>
           </div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl mx-auto">
             {values.map((value, index) => (
               <div key={index} className="flex items-start gap-4">
                 <div className="w-12 h-12 bg-gradient-to-r from-blue-500 to-orange-500 rounded-lg flex items-center justify-center text-white flex-shrink-0">
@@ -230,7 +212,7 @@ export default function AboutPage() {
       </section>
 
       {/* Timeline */}
-      <section className="py-20 bg-card">
+      {/* <section className="py-20 bg-card">
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
             <h2 className="text-3xl lg:text-4xl font-bold text-foreground mb-4">
@@ -269,7 +251,7 @@ export default function AboutPage() {
             </div>
           </div>
         </div>
-      </section>
+      </section> */}
 
       {/* Team Section */}
       <section className="py-20 bg-muted/30">
@@ -283,9 +265,10 @@ export default function AboutPage() {
             </p>
           </div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {teamMembers.map((member, index) => (
-              <Card key={index} className="text-center border-0 shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-2">
+          <div className="flex justify-center">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl">
+              {teamMembers.map((member, index) => (
+                <Card key={index} className="text-center border-0 shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-2">
                 <CardContent className="p-6">
                   <div className="relative mb-4">
                     <Image
@@ -305,7 +288,8 @@ export default function AboutPage() {
                   <p className="text-foreground/80 text-sm leading-relaxed">{member.bio}</p>
                 </CardContent>
               </Card>
-            ))}
+              ))}
+            </div>
           </div>
         </div>
       </section>
@@ -364,8 +348,6 @@ export default function AboutPage() {
           </div>
         </div>
       </section>
-
-      <Footer />
     </div>
   )
 }

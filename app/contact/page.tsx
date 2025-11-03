@@ -11,8 +11,6 @@ import { Textarea } from "@/components/ui/textarea"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Checkbox } from "@/components/ui/checkbox"
 import { Phone, Mail, MapPin, Clock, Send, MessageCircle, FileText, Calculator } from 'lucide-react'
-import Header from "@/components/header"
-import Footer from "@/components/footer"
 
 export default function ContactPage() {
   const [formData, setFormData] = useState({
@@ -54,19 +52,19 @@ export default function ContactPage() {
     {
       icon: <Phone className="w-6 h-6" />,
       title: "Phone",
-      details: ["+91 98765 43210", "+91 87654 32109"],
+      details: ["+91 81002 37440"],
       color: "text-blue-600"
     },
     {
       icon: <Mail className="w-6 h-6" />,
       title: "Email",
-      details: ["info@ganpatitraders.com", "orders@ganpatitraders.com"],
+      details: ["info@ganpatitraders.com"],
       color: "text-orange-600"
     },
     {
       icon: <MapPin className="w-6 h-6" />,
       title: "Address",
-      details: ["123 Business District", "Mumbai, Maharashtra 400001"],
+      details: ["19, Brabourne Road", "Kolkata, West Bengal 700001"],
       color: "text-green-600"
     },
     {
@@ -98,8 +96,6 @@ export default function ContactPage() {
 
   return (
     <div className="min-h-screen bg-background">
-      <Header />
-      
       {/* Hero Section */}
       <section className="py-16 bg-gradient-to-r from-blue-600 to-orange-600 text-white">
         <div className="container mx-auto px-4 text-center">
@@ -159,7 +155,7 @@ export default function ContactPage() {
                           id="phone"
                           value={formData.phone}
                           onChange={(e) => handleInputChange("phone", e.target.value)}
-                          placeholder="+91 98765 43210"
+                          placeholder="+91 81002 37440"
                         />
                       </div>
                       <div>
@@ -284,7 +280,7 @@ export default function ContactPage() {
                 <CardContent className="space-y-3">
                   <Button className="w-full justify-start bg-green-600 hover:bg-green-700 text-white">
                     <Phone className="w-4 h-4 mr-2" />
-                    Call Now: +91 98765 43210
+                    Call Now: +91 81002 37440
                   </Button>
                   <Button variant="outline" className="w-full justify-start border-blue-600 text-blue-600 hover:bg-blue-50 dark:hover:bg-blue-950">
                     <FileText className="w-4 h-4 mr-2" />
@@ -302,7 +298,7 @@ export default function ContactPage() {
                 <CardContent className="p-0">
                   <div className="relative h-48 bg-muted rounded-lg overflow-hidden">
                     <Image
-                      src="/placeholder.svg?height=200&width=400"
+                      src="https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?q=80&w=800&auto=format&fit=crop"
                       alt="Ganpati Traders Location"
                       width={400}
                       height={200}
@@ -375,8 +371,6 @@ export default function ContactPage() {
           </div>
         </div>
       </section>
-
-      <Footer />
     </div>
   )
 }

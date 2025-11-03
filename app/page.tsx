@@ -1,36 +1,36 @@
+"use client"
 import Link from "next/link"
 import Image from "next/image"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { ArrowRight, CheckCircle, Star, Phone, Mail, MapPin } from 'lucide-react'
-import Header from "@/components/header"
-import Footer from "@/components/footer"
+import Stack from "@/components/Stack"
 
 export default function HomePage() {
   const services = [
     {
-      title: "Visiting Cards",
-      description: "Professional business cards that make lasting impressions",
-      image: "/placeholder.svg?height=200&width=300",
-      features: ["Premium Materials", "Custom Designs", "Quick Turnaround"]
+      title: "Printing Solutions",
+      description: "Business essentials related to office use, branding, and documentation",
+      image: "https://a.storyblok.com/f/165154/1280x720/0a30e26489/01_digital-printing-overview.jpg",
+      services: ["Letter Pad Printing", "Bill Book Printing", "Vouchers", "Pamphlets", "Catalogues"]
     },
     {
-      title: "Custom Bags",
-      description: "Eco-friendly and branded bags for all occasions",
-      image: "/placeholder.svg?height=200&width=300",
-      features: ["Various Materials", "Bulk Orders", "Brand Customization"]
+      title: "Business Identity and Branding Materials",
+      description: "Personal or corporate branding and professional presentation solutions",
+      image: "https://img.freepik.com/free-vector/stylish-business-stationery-items-set-blue-color_1017-30619.jpg?semt=ais_hybrid&w=740&q=80",
+      services: ["Visiting Card Printing", "Premium Cards", "UV Cards", "Foil Cards", "Texture Sheet"]
     },
     {
-      title: "ID Cards",
-      description: "Secure and professional identification cards",
-      image: "/placeholder.svg?height=200&width=300",
-      features: ["Security Features", "Durable Materials", "Fast Processing"]
+      title: "Customized and Creative Printing Works",
+      description: "Specialized, creative, and high-quality printing for design-focused needs",
+      image: "https://quapri.in/wp-content/uploads/2025/09/custom-vinyl-stickers.webp",
+      services: ["Cardboard Works Printing", "Stickers", "Engravings"]
     },
     {
-      title: "Custom Printing",
-      description: "Specialized printing solutions for unique requirements",
-      image: "/placeholder.svg?height=200&width=300",
-      features: ["Flexible Options", "Quality Assured", "Expert Consultation"]
+      title: "Corporate and Event Accessories",
+      description: "Supporting materials and accessories for offices, conferences, and events",
+      image: "https://meowprintsg.b-cdn.net/wp-content/uploads/2024/09/21121737/T-Shirt-Printing-and-Corporate-Gifts-Printing-Singapore-MeowPrint-Pte-Ltd.jpg",
+      services: ["Visiting Card Box", "ID Card", "T-Shirt Printing", "Mug Printing", "Shopping Bag Printing"]
     }
   ]
 
@@ -55,15 +55,20 @@ export default function HomePage() {
     }
   ]
 
+  const images = [
+    { id: 1, img: "https://images.unsplash.com/photo-1480074568708-e7b720bb3f09?q=80&w=500&auto=format" },
+    { id: 2, img: "https://images.unsplash.com/photo-1449844908441-8829872d2607?q=80&w=500&auto=format" },
+    { id: 3, img: "https://images.unsplash.com/photo-1452626212852-811d58933cae?q=80&w=500&auto=format" },
+    { id: 4, img: "https://images.unsplash.com/photo-1572120360610-d971b9d7767c?q=80&w=500&auto=format" }
+  ];
+
   return (
-    <div className="min-h-screen bg-background">
-      <Header />
-      
+    <div className="min-h-screen bg-background">    
       {/* Hero Section */}
-      <section className="relative py-20 lg:py-32 overflow-hidden">
+      <section className="relative pt-16 pb-10 lg:pt-24 lg:pb-20 overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-r from-blue-600/10 to-orange-600/10" />
         <div className="container mx-auto px-4 relative z-10">
-          <div className="grid lg:grid-cols-2 gap-12 items-center">
+          <div className="grid lg:grid-cols-2 gap-12 items-center max-w-7xl mx-auto">
             <div className="space-y-8">
               <div className="space-y-4">
                 <h1 className="text-4xl lg:text-6xl font-bold text-foreground leading-tight">
@@ -98,15 +103,26 @@ export default function HomePage() {
                 </div>
               </div>
             </div>
-            <div className="relative">
-              <div className="absolute inset-0 bg-gradient-to-r from-blue-400 to-orange-400 rounded-3xl transform rotate-3 opacity-20" />
-              <Image
-                src="/placeholder.svg?height=600&width=500"
-                alt="Ganpati Traders Printing Services"
-                width={500}
-                height={600}
-                className="relative z-10 rounded-3xl shadow-2xl object-cover"
-              />
+            <div className="relative flex items-center justify-center min-h-[500px] lg:min-h-[600px]">
+              {/* Decorative background gradient */}
+              <div className="absolute inset-0 bg-gradient-to-r from-blue-400/20 via-purple-400/20 to-orange-400/20 rounded-3xl transform rotate-3 blur-3xl" />
+              <div className="absolute inset-0 bg-gradient-to-br from-blue-600/10 to-orange-600/10 rounded-3xl" />
+              
+              {/* Stack component with better sizing */}
+              <div className="relative z-10 transform hover:scale-105 transition-transform duration-300">
+                <Stack
+                  randomRotation={true}
+                  sensitivity={180}
+                  sendToBackOnClick={false}
+                  cardDimensions={{ width: 500, height: 500 }}
+                  cardsData={images}
+                  animationConfig={{ stiffness: 200, damping: 30 }}
+                />
+              </div>
+              
+              {/* Additional decorative elements */}
+              <div className="absolute -top-10 -right-10 w-32 h-32 bg-blue-500/10 rounded-full blur-2xl" />
+              <div className="absolute -bottom-10 -left-10 w-40 h-40 bg-orange-500/10 rounded-full blur-3xl" />
             </div>
           </div>
         </div>
@@ -124,15 +140,15 @@ export default function HomePage() {
             </p>
           </div>
           
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
             {services.map((service, index) => (
-              <Card key={index} className="group hover:shadow-xl transition-all duration-300 border-0 shadow-lg hover:-translate-y-2">
+              <Card key={index} className="group hover:shadow-xl transition-all duration-300 border border-border shadow-lg hover:-translate-y-2 overflow-hidden p-0">
                 <CardContent className="p-0">
-                  <div className="relative overflow-hidden rounded-t-lg">
+                  <div className="relative overflow-hidden rounded-t-xl">
                     <Image
                       src={service.image || "/placeholder.svg"}
                       alt={service.title}
-                      width={300}
+                      width={380}
                       height={200}
                       className="w-full h-48 object-cover group-hover:scale-110 transition-transform duration-300"
                     />
@@ -140,12 +156,12 @@ export default function HomePage() {
                   </div>
                   <div className="p-6">
                     <h3 className="text-xl font-semibold text-foreground mb-2">{service.title}</h3>
-                    <p className="text-foreground/80 mb-4">{service.description}</p>
+                    <p className="text-foreground/80 mb-4 text-sm">{service.description}</p>
                     <ul className="space-y-2">
-                      {service.features.map((feature, idx) => (
+                      {service.services.map((item, idx) => (
                         <li key={idx} className="flex items-center gap-2 text-sm text-foreground/80">
-                          <CheckCircle className="w-4 h-4 text-green-500" />
-                          {feature}
+                          <CheckCircle className="w-4 h-4 text-green-500 flex-shrink-0" />
+                          {item}
                         </li>
                       ))}
                     </ul>
@@ -215,14 +231,14 @@ export default function HomePage() {
           
           <div className="grid md:grid-cols-3 gap-8">
             {testimonials.map((testimonial, index) => (
-              <Card key={index} className="border-0 shadow-lg hover:shadow-xl transition-shadow duration-300">
+              <Card key={index} className="group border-0 shadow-lg hover:shadow-xl hover:-translate-y-2 transition-all duration-300">
                 <CardContent className="p-6">
                   <div className="flex items-center gap-1 mb-4">
                     {[...Array(testimonial.rating)].map((_, i) => (
                       <Star key={i} className="w-5 h-5 fill-yellow-400 text-yellow-400" />
                     ))}
                   </div>
-                  <p className="text-foreground/80 mb-4 italic">"{testimonial.text}"</p>
+                  <p className="text-foreground/80 mb-4 italic group-hover:text-foreground transition-colors duration-300">"{testimonial.text}"</p>
                   <div>
                     <div className="font-semibold text-foreground">{testimonial.name}</div>
                     <div className="text-sm text-muted-foreground">{testimonial.company}</div>
@@ -257,7 +273,7 @@ export default function HomePage() {
             <div className="flex flex-col sm:flex-row items-center justify-center gap-6 mt-8 pt-8 border-t border-border">
               <div className="flex items-center gap-2 text-foreground/80">
                 <Phone className="w-5 h-5 text-blue-600" />
-                <span>+91 98765 43210</span>
+                <span>+91 81002 37440</span>
               </div>
               <div className="flex items-center gap-2 text-foreground/80">
                 <Mail className="w-5 h-5 text-orange-600" />
@@ -265,14 +281,12 @@ export default function HomePage() {
               </div>
               <div className="flex items-center gap-2 text-foreground/80">
                 <MapPin className="w-5 h-5 text-green-600" />
-                <span>Mumbai, Maharashtra</span>
+                <span>Kolkata, West Bengal</span>
               </div>
             </div>
           </div>
         </div>
       </section>
-
-      <Footer />
     </div>
   )
 }

@@ -1,20 +1,21 @@
+"use client"
+import { useState } from "react"
 import Image from "next/image"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Star, ArrowRight, Eye, Download } from 'lucide-react'
-import Header from "@/components/header"
-import Footer from "@/components/footer"
 
 export default function PortfolioPage() {
+  const [selectedCategory, setSelectedCategory] = useState("All")
   const portfolioItems = [
     {
       id: 1,
       title: "Tech Startup Business Cards",
       category: "Visiting Cards",
       client: "InnovateTech Solutions",
-      image: "/placeholder.svg?height=400&width=600",
+      image: "https://www.creativeartsdesigning.in/wp-content/uploads/2017/03/QR-Visiting-card-single-side.jpg",
       description: "Premium matte finish business cards with embossed logo and modern typography for a tech startup.",
       tags: ["Premium", "Embossed", "Modern"],
       featured: true
@@ -24,7 +25,7 @@ export default function PortfolioPage() {
       title: "Eco-Friendly Shopping Bags",
       category: "Custom Bags",
       client: "Green Earth Store",
-      image: "/placeholder.svg?height=400&width=600",
+      image: "https://www.shutterstock.com/shutterstock/photos/1354256210/display_1500/stock-vector-textile-environmentally-friendly-reusable-shopping-bags-with-lettering-say-no-to-plastic-bags-eco-1354256210.jpg",
       description: "Sustainable paper bags with custom branding for an eco-conscious retail store.",
       tags: ["Eco-Friendly", "Custom Design", "Retail"]
     },
@@ -33,7 +34,7 @@ export default function PortfolioPage() {
       title: "Corporate ID Cards",
       category: "ID Cards",
       client: "Global Enterprises Ltd",
-      image: "/placeholder.svg?height=400&width=600",
+      image: "https://m.media-amazon.com/images/I/51o8Ihu1gZL.jpg",
       description: "Professional employee ID cards with security features and magnetic stripe for access control.",
       tags: ["Security", "Corporate", "Professional"]
     },
@@ -42,7 +43,7 @@ export default function PortfolioPage() {
       title: "Restaurant Menu Brochures",
       category: "Brochures",
       client: "Spice Garden Restaurant",
-      image: "/placeholder.svg?height=400&width=600",
+      image: "https://static.vecteezy.com/system/resources/previews/001/225/694/non_2x/folding-restaurant-brochure-template-vector.jpg",
       description: "Tri-fold menu brochures with high-quality food photography and elegant design.",
       tags: ["Food & Beverage", "Photography", "Elegant"]
     },
@@ -51,7 +52,7 @@ export default function PortfolioPage() {
       title: "Event Banner Display",
       category: "Banners",
       client: "Mumbai Music Festival",
-      image: "/placeholder.svg?height=400&width=600",
+      image: "https://www.stickergenius.com/wp-content/uploads/2023/09/Product-Images-900-%C3%97-600-px-2.png",
       description: "Large format banners for outdoor music festival with weather-resistant materials.",
       tags: ["Large Format", "Weather-Resistant", "Events"],
       featured: true
@@ -61,7 +62,7 @@ export default function PortfolioPage() {
       title: "Product Label Stickers",
       category: "Stickers",
       client: "Artisan Cosmetics",
-      image: "/placeholder.svg?height=400&width=600",
+      image: "https://images.jdmagicbox.com/quickquotes/images_main/printing-services-for-pvc-sticker-2223061475-x26rd0gq.jpg",
       description: "Waterproof product labels with gold foil accents for premium cosmetic products.",
       tags: ["Waterproof", "Gold Foil", "Premium"]
     },
@@ -70,7 +71,7 @@ export default function PortfolioPage() {
       title: "Wedding Invitation Suite",
       category: "Invitations",
       client: "Sharma Family",
-      image: "/placeholder.svg?height=400&width=600",
+      image: "https://i.etsystatic.com/21274866/r/il/1a29ea/5794843658/il_570xN.5794843658_a82r.jpg",
       description: "Luxury wedding invitation cards with traditional motifs and gold embossing.",
       tags: ["Wedding", "Luxury", "Traditional"]
     },
@@ -79,7 +80,7 @@ export default function PortfolioPage() {
       title: "Real Estate Flyers",
       category: "Flyers",
       client: "Prime Properties",
-      image: "/placeholder.svg?height=400&width=600",
+      image: "https://www.befunky.com/images/wp/wp-2020-07-featured-real-estate-flyers.jpg?auto=avif,webp&format=jpg&width=1136&crop=16:9",
       description: "Professional marketing flyers for property listings with high-quality photography.",
       tags: ["Real Estate", "Marketing", "Professional"]
     },
@@ -88,7 +89,7 @@ export default function PortfolioPage() {
       title: "Cafe Loyalty Cards",
       category: "Loyalty Cards",
       client: "Coffee Corner Cafe",
-      image: "/placeholder.svg?height=400&width=600",
+      image: "https://cdn.vectorstock.com/i/1000v/09/71/coffee-tea-cafe-loyalty-card-stamps-collect-get-vector-46560971.jpg",
       description: "Custom loyalty cards with punch-hole design for a local coffee shop.",
       tags: ["Loyalty Program", "Custom", "Food & Beverage"],
       featured: true
@@ -101,30 +102,28 @@ export default function PortfolioPage() {
       company: "InnovateTech Solutions",
       rating: 5,
       text: "The business cards exceeded our expectations. The quality is outstanding and the design perfectly represents our brand.",
-      image: "/placeholder.svg?height=60&width=60"
+      image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=200&auto=format&fit=crop"
     },
     {
       name: "Priya Sharma",
       company: "Green Earth Store",
       rating: 5,
       text: "Fantastic work on our eco-friendly bags. They're durable, beautiful, and align perfectly with our sustainability values.",
-      image: "/placeholder.svg?height=60&width=60"
+      image: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=200&auto=format&fit=crop"
     },
     {
       name: "Amit Patel",
       company: "Global Enterprises Ltd",
       rating: 5,
       text: "Professional service and high-quality ID cards. The security features work perfectly and the design is clean and modern.",
-      image: "/placeholder.svg?height=60&width=60"
+      image: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?q=80&w=200&auto=format&fit=crop"
     }
   ]
 
   const categories = ["All", "Visiting Cards", "Custom Bags", "ID Cards", "Brochures", "Banners", "Stickers"]
 
   return (
-    <div className="min-h-screen bg-background">
-      <Header />
-      
+    <div className="min-h-screen bg-background">  
       {/* Hero Section */}
       <section className="py-16 bg-gradient-to-r from-blue-600 to-orange-600 text-white">
         <div className="container mx-auto px-4 text-center">
@@ -169,8 +168,9 @@ export default function PortfolioPage() {
             {categories.map((category) => (
               <Button
                 key={category}
-                variant={category === "All" ? "default" : "outline"}
-                className={category === "All" ? "bg-blue-600 hover:bg-blue-700" : "border-border hover:border-blue-600 hover:text-blue-600"}
+                onClick={() => setSelectedCategory(category)}
+                variant={selectedCategory === category ? "default" : "outline"}
+                className={selectedCategory === category ? "bg-blue-600 hover:bg-blue-700" : "border-border hover:border-blue-600 hover:text-blue-600"}
               >
                 {category}
               </Button>
@@ -178,16 +178,18 @@ export default function PortfolioPage() {
           </div>
 
           {/* Portfolio Items */}
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {portfolioItems.map((item) => (
-              <Card key={item.id} className="group overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 border-0">
-                <div className="relative overflow-hidden">
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mx-auto max-w-7xl">
+            {portfolioItems
+              .filter(item => selectedCategory === "All" || item.category === selectedCategory)
+              .map((item) => (
+              <Card key={item.id} className="group overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 border border-border rounded-xl p-0">
+                <div className="relative overflow-hidden rounded-t-xl">
                   <Image
                     src={item.image || "/placeholder.svg"}
                     alt={item.title}
                     width={600}
                     height={400}
-                    className="w-full h-64 object-cover group-hover:scale-110 transition-transform duration-300"
+                    className="w-full h-64 object-cover rounded-t-xl group-hover:scale-110 transition-transform duration-300"
                   />
                   {item.featured && (
                     <Badge className="absolute top-4 left-4 bg-orange-600 hover:bg-orange-700">
@@ -253,27 +255,27 @@ export default function PortfolioPage() {
             </p>
           </div>
           
-          <div className="grid md:grid-cols-3 gap-8">
+          <div className="grid md:grid-cols-3 gap-8 max-w-7xl mx-auto">
             {testimonials.map((testimonial, index) => (
-              <Card key={index} className="border-0 shadow-lg hover:shadow-xl transition-shadow duration-300">
+              <Card key={index} className="group border border-border rounded-xl shadow-lg hover:shadow-2xl hover:scale-105 hover:-translate-y-2 transition-all duration-300 cursor-pointer">
                 <CardContent className="p-6">
                   <div className="flex items-center gap-1 mb-4">
                     {[...Array(testimonial.rating)].map((_, i) => (
-                      <Star key={i} className="w-5 h-5 fill-yellow-400 text-yellow-400" />
+                      <Star key={i} className="w-5 h-5 fill-yellow-400 text-yellow-400 group-hover:scale-110 transition-transform duration-300" />
                     ))}
                   </div>
-                  <p className="text-foreground/80 mb-6 italic">"{testimonial.text}"</p>
+                  <p className="text-foreground/80 mb-6 italic group-hover:text-foreground transition-colors duration-300">"{testimonial.text}"</p>
                   <div className="flex items-center gap-3">
                     <Image
                       src={testimonial.image || "/placeholder.svg"}
                       alt={testimonial.name}
                       width={60}
                       height={60}
-                      className="w-12 h-12 rounded-full object-cover"
+                      className="w-12 h-12 rounded-full object-cover group-hover:ring-2 group-hover:ring-blue-500 transition-all duration-300"
                     />
                     <div>
-                      <div className="font-semibold text-foreground">{testimonial.name}</div>
-                      <div className="text-sm text-muted-foreground">{testimonial.company}</div>
+                      <div className="font-semibold text-foreground group-hover:text-blue-600 transition-colors duration-300">{testimonial.name}</div>
+                      <div className="text-sm text-muted-foreground group-hover:text-foreground/80 transition-colors duration-300">{testimonial.company}</div>
                     </div>
                   </div>
                 </CardContent>
@@ -304,8 +306,6 @@ export default function PortfolioPage() {
           </div>
         </div>
       </section>
-
-      <Footer />
     </div>
   )
 }
